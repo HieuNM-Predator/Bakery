@@ -1,0 +1,25 @@
+.form-login {
+    width: 30%;
+    margin-bottom: 142px;
+    margin-top: 50px;
+}
+
+button.btn-login {
+    width: 100%;
+    color: white;
+    background: #212529;
+    border-radius: 5px;
+    padding: 5px 10px;
+    border: 0px;
+    cursor: pointer;
+}
+
+button.btn-login:hover {
+    background: #b1c23c;
+}
+
+a.link-sign-up {
+    text-decoration: none;
+    color: #b1c23c;
+}
+

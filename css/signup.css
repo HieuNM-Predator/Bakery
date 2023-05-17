@@ -1,0 +1,40 @@
+.form-signup {
+    width: 50%;
+    margin-top: 30px;
+}
+
+button.btn-signup {
+    width: 100%;
+    color: white;
+    background: #212529;
+    border-radius: 5px;
+    padding: 5px 10px;
+    border: 0px;
+    cursor: pointer;
+}
+
+button.btn-signup:hover {
+    background: #b1c23c;
+}
+
+/* label.gender {
+    margin-right: 20px;
+}
+
+span.gender {
+    border: 1px solid #ccd0d5;
+    padding: 8px 10px;
+    border-radius: 5px;
+}
+
+span.gender.female {
+    margin-left: 5px;
+}
+
+label.gender.female {
+    margin-right: 35px;
+} */
+
+label.radio-inline.gender {
+    margin-left: 20px;
+}

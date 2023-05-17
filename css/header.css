@@ -1,0 +1,36 @@
+.header-icon {
+    margin-right: 26px;
+}
+
+a.icon-shopping-cart {
+    color: #fff;
+}
+a.icon-shopping-cart:hover {
+    color: #b1c23c;
+    /* margin-right: 15px; */
+}
+
+/* a.btn.btn-light:hover {
+    background-color: #b1c23c;
+    color: #fff;
+} */
+
+a.icon-login {
+    color: #fff;
+    margin-left: 20px;
+    padding: 8px;
+}
+
+a.icon-login:hover {
+    color: #b1c23c;
+}
+
+/* a.icon-logout {
+    color: #fff;
+    margin-left: 7px;
+    padding: 8px;
+} */
+
+a.icon-logout:hover {
+    color: #b1c23c;
+}

@@ -1,4 +1,12 @@
+<!-- #include file="connect.asp" -->
 <!--#include file="layouts/header.asp"-->
+<%
+    ' code here to retrive the data from product table
+    Dim sqlString, rs
+    sqlString = "Select * from SANPHAM"
+    connDB.Open()
+    set rs = connDB.execute(sqlString)    
+%>
 <main role="main">
     <!-- Block content - Đục lỗ trên giao diện bố cục chung, đặt tên là content -->
     <!-- Danh sách sản phẩm -->
@@ -11,6 +19,9 @@
     <!-- Giải thuật duyệt và render Danh sách sản phẩm theo dòng, cột của Bootstrap -->
         <div class="danhsachsanpham py-5 bg-light">
             <div class="container">
+            <% 
+              do while not rs.EOF
+            %>
                 <div class="row">
                     <div class="col-xs-1 col-md-3 productOfIndex">
                         <div class="box">
@@ -60,10 +71,10 @@
                         </div>
                     </div>
                 </div>
-            <div class="row">
-
-                <div class="col-xs-1 col-md-3 productOfIndex">
-                    <div class="box">
+                
+                <div class="row">
+                    <div class="col-xs-1 col-md-3 productOfIndex">
+                        <div class="box">
                         <img src="https://product.hstatic.net/200000411281/product/rosie_love_24e1cc3a3aab4b65a82a2d080e4d2785_master.png" alt="" class="img-responsive img-sp">
                     </div>
                     <div class="detail-box">

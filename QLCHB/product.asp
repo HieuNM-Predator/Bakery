@@ -18,24 +18,24 @@
 
     <!-- Giải thuật duyệt và render Danh sách sản phẩm theo dòng, cột của Bootstrap -->
         <div class="danhsachsanpham py-5 bg-light">
-            <div class="container">
-            <% 
-              do while not rs.EOF
-            %>
+            <div class="container">            
                 <div class="row">
-                    <div class="col-xs-1 col-md-3 productOfIndex">
+                    <% 
+                     do while not rs.EOF
+                    %>
+                    <div class="col-xs-1 col-md-3 productOfIndex mt-3">
                         <div class="box">
-                            <img src="https://product.hstatic.net/200000411281/product/2-removebg-preview__1__ba51f7d4eaf74031877384148b2a7a9f_master.png" alt="" class="img-responsive img-sp">
+                            <img src="<%=rs("HinhAnh")%>" alt="" class="img-responsive img-sp">
                         </div>
                         <div class="detail-box">
-                            <h6 class="product-name">Bánh kem Sweet Heart</h6>
-                            <h6 class="product-price">300000VND</h6>
+                            <h6 class="product-name"><%= rs("TenSP")%></h6>
+                            <h6 class="product-price"><%= rs("DonGia") %>VND</h6>
                             <a href="" class="link-cart"><i class="fa fa-shopping-cart"></i></a>
                             <a href="" class="detail-product pull-right"><i class="fa-solid fa-circle-info"></i></a>
                         </div>
                     </div>
-    
-                    <div class="col-xs-1 col-md-3 productOfIndex">
+                    
+                    <!-- <div class="col-xs-1 col-md-3 productOfIndex">
                         <div class="box">
                             <img src="https://product.hstatic.net/200000411281/product/1-03_9153eb9828514f419bdccc9dbe49e410_master.jpg" alt="" class="img-responsive img-sp">
                         </div>
@@ -69,10 +69,15 @@
                             <a href="" class="link-cart"><i class="fa fa-shopping-cart"></i></a>
                             <a href="" class="detail-product pull-right"><i class="fa-solid fa-circle-info"></i></a>
                         </div>
-                    </div>
-                </div>
-                
-                <div class="row">
+                    </div> -->
+                <%
+                    rs.MoveNext
+                    loop
+                    rs.Close()
+                    connDB.Close()
+                %> 
+                </div>                
+                <!-- <div class="row">
                     <div class="col-xs-1 col-md-3 productOfIndex">
                         <div class="box">
                         <img src="https://product.hstatic.net/200000411281/product/rosie_love_24e1cc3a3aab4b65a82a2d080e4d2785_master.png" alt="" class="img-responsive img-sp">
@@ -120,8 +125,8 @@
                         <a href="" class="detail-product pull-right"><i class="fa-solid fa-circle-info"></i></a>
                     </div>
                 </div>
-            </div>
-            <div class="row">
+            </div> -->
+            <!-- <div class="row">
 
                 <div class="col-xs-1 col-md-3 productOfIndex">
                     <div class="box">
@@ -170,9 +175,9 @@
                         <a href="" class="detail-product pull-right"><i class="fa-solid fa-circle-info"></i></a>
                     </div>
                 </div>
-            </div>
-
-            </div>
+            </div> -->
+   
+            <!-- </div> -->
         </div>
     </div>
 

@@ -25,7 +25,7 @@
     end function
     ' trang hien tai
     page = Request.QueryString("page")
-        limit = 4
+        limit = 8
     if (trim(page) = "") or (isnull(page)) then
         page = 1
     end if

@@ -1,4 +1,6 @@
+<!--#include file="connect.asp"-->
 <!--#include file="layouts/header.asp"-->
+
 <div class="container form-signup">
     <form method="post" action="signup.asp">
         <div class="mb-3">

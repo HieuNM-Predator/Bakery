@@ -1,5 +1,52 @@
 <!-- #include file="connect.asp" -->
 <!--#include file="layouts/header.asp"-->
+<%
+'lay ve danh sach product theo id trong my cart
+Dim idList, mycarts, totalProduct, subtotal, statusViews, statusButtons, rs
+If (NOT IsEmpty(Session("mycarts"))) Then
+  statusViews = "d-none"
+  statusButtons = "d-block"
+' true
+	Set mycarts = Session("mycarts")
+	idList = ""
+	totalProduct=mycarts.Count    
+	For Each List In mycarts.Keys
+		If (idList="") Then
+' true
+			idList = List
+		Else
+			idList = idList & "," & List
+		End if                               
+	Next
+	Dim sqlString
+	sqlString = "Select * from SANPHAM where MaSP IN  ("& idList & ")  "
+	connDB.Open()
+	set rs = connDB.execute(sqlString)
+	calSubtotal(rs)
+
+  Else
+    'Session empty
+    statusViews = "d-block"
+    statusButtons = "d-none"
+    totalProduct=0
+  End If
+  Sub calSubtotal(rs)
+' Do Something...
+		subtotal = 0
+		do while not rs.EOF
+			subtotal = subtotal + Clng(mycarts.Item(CStr(rs("MaSP")))) * CDbl(CStr(rs("DonGia")))
+			rs.MoveNext
+		loop
+		rs.MoveFirst
+	End Sub
+  Sub defineItems(v)
+    If (v>1) Then
+      Response.Write(" Items")
+    Else
+      Response.Write(" Item")
+    End If
+  End Sub
+%>
 <section class="h-100 h-custom" style="background-color: #eee; margin-bottom: 259px">
     <div class="container py-2 h-100">
       <div class="row d-flex justify-content-center align-items-center h-100">
@@ -11,7 +58,7 @@
                   <div class="p-5">
                     <div class="d-flex justify-content-between align-items-center mb-5">
                       <h1 class="fw-bold mb-0 text-black">Giỏ hàng</h1>
-                      <h6 class="mb-0 text-muted"></h6>
+                      <h6 class="mb-0 text-muted"><%= totalProduct %> <%call defineItems(totalProduct) %></h6>
                     </div>
                     <form action="removecart.asp" method=post>
                     <hr class="my-4">
@@ -27,8 +74,8 @@
                           class="img-fluid rounded-3" alt="Cotton T-shirt">
                       </div>
                       <div class="col-md-3 col-lg-3 col-xl-3">
-                        <h6 class="text-muted"><%= rs("tensp")%></h6>
-                        <h6 class="text-black mb-0"><%= rs("mota")%></h6>
+                        <h6 class="text-muted"><%= rs("TenSP")%></h6>
+                        <h6 class="text-black mb-0"><%= rs("MoTa")%></h6>
                       </div>
                       <div class="col-md-3 col-lg-3 col-xl-2 d-flex">
                         <button class="btn btn-link px-2"
@@ -38,7 +85,7 @@
   
                         <input id="form1" min="0" name="quantity" value="<%
                                       Dim id
-                                      id  = CStr(rs("masp"))
+                                      id  = CStr(rs("MaSP"))
                                       Response.Write(mycarts.Item(id))                                     
                                       %>" type="number"
                           class="form-control form-control-sm" />
@@ -49,11 +96,11 @@
                         </button>
                       </div>
                       <div class="col-md-3 col-lg-2 col-xl-2 offset-lg-1">
-                        <h6 class="mb-0">$ <%= rs("giasp")%></h6>
+                        <h6 class="mb-0">VND <%= rs("DonGia")%></h6>
                       </div>
                       <div class="col-md-1 col-lg-1 col-xl-1 text-end">
                       
-                        <a href="removecart.asp?id=<%= rs("masp")%>" class="text-muted"><i class="fas fa-times"></i></a>
+                        <a href="removecart.asp?id=<%= rs("MaSP")%>" class="text-muted"><i class="fas fa-times"></i></a>
                       </div>
                     </div>
   

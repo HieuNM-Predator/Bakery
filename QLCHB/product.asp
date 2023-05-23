@@ -73,7 +73,7 @@
                         <div class="detail-box">
                             <h6 class="product-name"><%= rs("TenSP")%></h6>
                             <h6 class="product-price"><%= rs("DonGia") %>VND</h6>
-                            <a href="product.asp" class="link-cart"><i class="fa fa-shopping-cart"></i></a>
+                            <a href="shopping.asp" class="link-cart"><i class="fa fa-shopping-cart"></i></a>
                             <a href="detail-product.asp" class="detail-product pull-right"><i class="fa-solid fa-circle-info"></i></a>
                         </div>
                     </div>

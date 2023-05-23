@@ -1,7 +1,7 @@
 </div>
 <!--END MAIN CONTENT-->
 
-    <div class="footer">
+    <div class="footer navbar-fixed-bottom">
         <div class="container-fluid bg-dark">
             <div class="row text-center">
                 <div class="col-md-6">

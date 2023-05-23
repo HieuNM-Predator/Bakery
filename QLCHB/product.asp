@@ -1,13 +1,6 @@
 <!-- #include file="connect.asp" -->
 <!--#include file="layouts/header.asp"-->
 <%
-    ' code here to retrive the data from product table
-    Dim sqlString, rs
-    sqlString = "Select * from SANPHAM"
-    connDB.Open()
-    set rs = connDB.execute(sqlString)    
-%>
-<%
 'Phan trang'
 ' ham lam tron so nguyen
     function Ceil(Number)
@@ -35,7 +28,7 @@
     offset = (Clng(page) * Clng(limit)) - Clng(limit)
 
     strSQL = "SELECT COUNT(MaSP) AS count FROM SANPHAM"
-    'connDB.Open()
+    connDB.Open()
     Set CountResult = connDB.execute(strSQL)
 
     totalRows = CLng(CountResult("count"))
@@ -62,7 +55,13 @@
 
     <!-- Giải thuật duyệt và render Danh sách sản phẩm theo dòng, cột của Bootstrap -->
         <div class="danhsachsanpham py-5 bg-light">
-            <div class="container">            
+            <div class="container"> 
+                <%
+                 ' code here to retrive the data from product table
+                   Dim sqlString, rs
+                   sqlString = "Select * from SANPHAM"
+                   set rs = connDB.execute(sqlString)    
+                %>           
                 <div class="row">
                     <% 
                      do while not rs.EOF

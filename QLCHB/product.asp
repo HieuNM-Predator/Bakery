@@ -1,17 +1,7 @@
 <!-- #include file="connect.asp" -->
 <!--#include file="layouts/header.asp"-->
 <%
-<<<<<<< Updated upstream
 'Phan trang'
-=======
-    ' for i=LBound(newCart) to UBound(newCart)    
-    ' Response.Write newCart(i) & "<br><p>-----</p>"
-    ' Next
-    ' Else
-    '     Response.Write " not an array"
-    ' End If
-' khi moi san pham duoc add vao gio hang, tien hanh lay ra s_Carts, tang them 1 phan tu cua mang va luu lai trong sesssion
->>>>>>> Stashed changes
 ' ham lam tron so nguyen
     function Ceil(Number)
         Ceil = Int(Number)
@@ -94,13 +84,8 @@
                         <div class="detail-box">
                             <h6 class="product-name"><%= rs("TenSP")%></h6>
                             <h6 class="product-price"><%= rs("DonGia") %>VND</h6>
-<<<<<<< Updated upstream
-                            <a href="shopping.asp" class="link-cart"><i class="fa fa-shopping-cart"></i></a>
-                            <a href="detail-product.asp" class="detail-product pull-right"><i class="fa-solid fa-circle-info"></i></a>
-=======
                             <a href="addCart.asp?idProduct=<%=rs("MaSP")%>" class="link-cart"><i class="fa fa-shopping-cart"></i></a>
                             <a href="detail-product.asp?idProduct=<%=rs("MaSP")%>" class="detail-product pull-right"><i class="fa-solid fa-circle-info"></i></a>
->>>>>>> Stashed changes
                         </div>
                     </div>
                     

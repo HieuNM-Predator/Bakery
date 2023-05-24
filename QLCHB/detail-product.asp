@@ -80,8 +80,7 @@
                             <img src="<%=hinhanh%>" class="img-thumbnail">
                         </div>
                         <div class="details col-md-6">
-                            <h2><%=ten%> </h2>
-                            <h3 class="product-title"><%=mota%></h3>
+                            <h3 class="product-title"><%=ten%></h3>
                             <div class="rating">
                                 <div class="stars">
                                     <span class="fa fa-star checked"></span>
@@ -92,7 +91,7 @@
                                 </div>
                                
                             </div>
-                            <p class="product-description"></p>                 
+                            <p class="product-description"><%=mota%></p>                 
                             <h4 class="price">Giá hiện tại: <span><%=dongia%></span></h4>
                             <p class="vote"><strong>100%</strong> hàng <strong>Chất lượng</strong>, đảm bảo
                                 <strong>Uy

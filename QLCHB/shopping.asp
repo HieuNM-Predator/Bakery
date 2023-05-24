@@ -19,7 +19,7 @@ If (NOT IsEmpty(Session("mycarts"))) Then
 		End if                               
 	Next
 	Dim sqlString
-	sqlString = "Select * from SANPHAM where MaSP IN  ("& idList & ")  "
+	sqlString = "Select * from SANPHAM where MaSP IN  ("& idList & ") "
 	connDB.Open()
 	set rs = connDB.execute(sqlString)
 	calSubtotal(rs)

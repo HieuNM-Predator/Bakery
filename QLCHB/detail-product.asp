@@ -108,7 +108,7 @@
                                 <input type="number" class="form-control" id="soluong" name="soluong">
                             </div> -->
                             <div class="action">
-                                <a href="addCart.asp" class="link-cart">Thêm vào giỏ hàng <i class="fa fa-shopping-cart"></i></a>
+                                <a href="addCart.asp?idProduct=<%=masp%>" class="link-cart">Thêm vào giỏ hàng <i class="fa fa-shopping-cart"></i></a>
                                 <h6 class="mb-0 col-lg-10 pt-1">
                                     <a href="product.asp" class="text-body" style="color:#b1c23c">
                                         <i class="fas fa-long-arrow-alt-left me-2"></i>Quay lại trang sản phẩm

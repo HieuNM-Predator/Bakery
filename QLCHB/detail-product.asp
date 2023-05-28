@@ -27,7 +27,7 @@
          Session("Error") = "Sản phẩm lựa chọn không thể kiểm tra"
     End If
 %>
-<main role="main" style="margin-top:40px; margin-bottom:40px;">
+<main role="main" style="margin-top:40px; margin-bottom:160px;">
     <!-- Block content - Đục lỗ trên giao diện bố cục chung, đặt tên là content -->
     <div class="container mt-4">
         <div id="thongbao" class="alert alert-danger d-none face" role="alert">

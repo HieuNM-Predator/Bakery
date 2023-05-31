@@ -1,11 +1,48 @@
 <!-- #include file="connect.asp" -->
 <!--#include file="layouts/header.asp"-->
 <%
-    ' code here to retrive the data from product table
-    Dim sqlString, rs
-    sqlString = "Select * from SANPHAM"
+'Phan trang'
+' ham lam tron so nguyen
+    function Ceil(Number)
+        Ceil = Int(Number)
+        if Ceil<>Number Then
+            Ceil = Ceil + 1
+        end if
+    end function
+
+    function checkPage(cond, ret) 
+        if cond=true then
+            Response.write ret
+        else
+            Response.write ""
+        end if
+    end function
+' trang hien tai
+    page = Request.QueryString("page")
+    limit = 8
+
+    if (trim(page) = "") or (isnull(page)) then
+        page = 1
+    end if
+
+    offset = (Clng(page) * Clng(limit)) - Clng(limit)
+
+    strSQL = "SELECT COUNT(MaSP) AS count FROM SANPHAM"
     connDB.Open()
-    set rs = connDB.execute(sqlString)    
+    Set CountResult = connDB.execute(strSQL)
+
+    totalRows = CLng(CountResult("count"))
+
+    Set CountResult = Nothing
+' lay ve tong so trang
+    pages = Ceil(totalRows/limit)
+    'gioi han tong so trang la 5
+    Dim range
+    If (pages<=5) Then
+        range = pages
+    Else
+        range = 5
+    End if
 %>
 <main role="main">
     <!-- Block content - Đục lỗ trên giao diện bố cục chung, đặt tên là content -->
@@ -18,9 +55,26 @@
 
     <!-- Giải thuật duyệt và render Danh sách sản phẩm theo dòng, cột của Bootstrap -->
         <div class="danhsachsanpham py-5 bg-light">
-            <div class="container">            
+            <div class="container"> 
+                <%
+                 ' code here to retrive the data from product table
+                   Dim sqlString, rs
+                   sqlString = "Select * from SANPHAM"
+                   set rs = connDB.execute(sqlString)    
+                %>           
                 <div class="row">
-                    <% 
+                    <%
+                     ' code here to retrive the data from product table
+                     Set cmdPrep = Server.CreateObject("ADODB.Command")
+                     cmdPrep.ActiveConnection = connDB
+                     cmdPrep.CommandType = 1
+                     cmdPrep.Prepared = True                                         
+                     cmdPrep.CommandText = "Select * from SANPHAM ORDER BY MaSP OFFSET ? ROWS FETCH NEXT ? ROWS ONLY"
+                     cmdPrep.parameters.Append cmdPrep.createParameter("offset",3,1, ,offset)
+                     cmdPrep.parameters.Append cmdPrep.createParameter("limit",3,1, , limit)
+    
+                     set rs = cmdPrep.execute
+                   
                      do while not rs.EOF
                     %>
                     <div class="col-xs-1 col-md-3 productOfIndex mt-3">
@@ -30,8 +84,8 @@
                         <div class="detail-box">
                             <h6 class="product-name"><%= rs("TenSP")%></h6>
                             <h6 class="product-price"><%= rs("DonGia") %>VND</h6>
-                            <a href="" class="link-cart"><i class="fa fa-shopping-cart"></i></a>
-                            <a href="" class="detail-product pull-right"><i class="fa-solid fa-circle-info"></i></a>
+                            <a href="addCart.asp?idProduct=<%=rs("MaSP")%>" class="link-cart"><i class="fa fa-shopping-cart"></i></a>
+                            <a href="detail-product.asp?idProduct=<%=rs("MaSP")%>" class="detail-product pull-right"><i class="fa-solid fa-circle-info"></i></a>
                         </div>
                     </div>
                     
@@ -125,8 +179,8 @@
                         <a href="" class="detail-product pull-right"><i class="fa-solid fa-circle-info"></i></a>
                     </div>
                 </div>
-            </div> -->
-            <!-- <div class="row">
+            </div>
+            <div class="row">
 
                 <div class="col-xs-1 col-md-3 productOfIndex">
                     <div class="box">
@@ -175,12 +229,35 @@
                         <a href="" class="detail-product pull-right"><i class="fa-solid fa-circle-info"></i></a>
                     </div>
                 </div>
-            </div> -->
+            </div>
    
-            <!-- </div> -->
+            </div> -->
         </div>
     </div>
+    <nav aria-label="Page Navigation">
+        <ul class="pagination pagination-sm justify-content-center my-5">
+            <% if (pages>1) then 
+            'kiem tra trang hien tai co >=2
+                    if(Clng(page)>=2) then
+            %>
+                    <li class="page-item"><a class="page-link" href="product.asp?page=<%=Clng(page)-1%>">Previous</a></li>
+            <%    
+                    end if 
+                    for i= 1 to range
+            %>
+                        <li class="page-item <%=checkPage(Clng(i)=Clng(page),"active")%>"><a class="page-link" href="product.asp?page=<%=i%>"><%=i%></a></li>
+            <%
+                    next
+                    if (Clng(page)<pages) then
 
+            %>
+                    <li class="page-item"><a class="page-link" href="product.asp?page=<%=Clng(page)+1%>">Next</a></li>
+            <%
+                    end if    
+                end if
+            %>
+        </ul>
+    </nav>
     <!-- End block content -->
 </main>
 <!--#include file="layouts/footer.asp"--> 

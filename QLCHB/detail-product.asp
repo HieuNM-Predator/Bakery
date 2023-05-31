@@ -1,7 +1,33 @@
 <!-- #include file="connect.asp" -->
 <!--#include file="layouts/header.asp"-->
-
-<main role="main" style="margin-top:40px; margin-bottom:40px;">
+<%
+    Dim idProduct
+    idProduct = Request.QueryString("idproduct")
+    'Do Something...
+    If (NOT IsNull(idProduct) and idProduct <> "") Then
+        Dim cmdPrep, rs
+        Set cmdPrep = Server.CreateObject("ADODB.Command")
+            connDB.Open()
+            cmdPrep.ActiveConnection = connDB
+            cmdPrep.CommandType = 1
+            cmdPrep.CommandText = "SELECT * FROM SANPHAM WHERE MaSP=?"
+            cmdPrep.Parameters(0)=idProduct
+            Set rs = cmdPrep.execute 
+            If not rs.EOF then
+                 hinhanh = rs("HinhAnh")
+                 masp = rs("MaSP")
+                 ten = rs("TenSP")
+                 mota = rs("MoTa")
+                 dongia = rs("DonGia")
+            Else
+                 rs.Close()
+                 Session("Error") = "Sản phẩm không tồn tại"
+            End If
+    Else 
+         Session("Error") = "Sản phẩm lựa chọn không thể kiểm tra"
+    End If
+%>
+<main role="main" style="margin-top:40px; margin-bottom:160px;">
     <!-- Block content - Đục lỗ trên giao diện bố cục chung, đặt tên là content -->
     <div class="container mt-4">
         <div id="thongbao" class="alert alert-danger d-none face" role="alert">
@@ -14,10 +40,10 @@
             <div class="container-fliud">
                 <form name="frmsanphamchitiet" id="frmsanphamchitiet" method="post"
                     action="/php/twig/frontend/giohang/themvaogiohang">
-                    <input type="hidden" name="sp_ma" id="sp_ma" value="5">
-                    <input type="hidden" name="sp_ten" id="sp_ten" value="Samsung Galaxy Tab 10.1 3G 16G">
-                    <input type="hidden" name="sp_gia" id="sp_gia" value="10990000.00">
-                    <input type="hidden" name="hinhdaidien" id="hinhdaidien" value="samsung-galaxy-tab-10.jpg">
+                    <input type="hidden" name="masp" id="masp" value="<%=masp%>">
+                    <input type="hidden" name="ten" id="ten" value="<%=ten%>">
+                    <input type="hidden" name="dongia" id="dongia" value="<%=dongia%>">
+                    <input type="hidden" name="hinhanh" id="hinhdaidien" value="<%=hinhanh%>">
 
                     <div class="wrapper row">
                         <!-- <div class="preview col-md-6">
@@ -51,10 +77,10 @@
                             </ul>
                         </div> -->
                         <div class="col-md-6">
-                            <img src="https://product.hstatic.net/200000411281/product/banh_kem_amazing_chocolate_c89da3fb2deb4060be34f42b054922f7_master.png" class="img-thumbnail">
+                            <img src="<%=hinhanh%>" class="img-thumbnail">
                         </div>
                         <div class="details col-md-6">
-                            <h3 class="product-title">Samsung Galaxy Tab 10.1 3G 16G</h3>
+                            <h3 class="product-title"><%=ten%></h3>
                             <div class="rating">
                                 <div class="stars">
                                     <span class="fa fa-star checked"></span>
@@ -65,13 +91,13 @@
                                 </div>
                                
                             </div>
-                            <p class="product-description">Màn hình 10.1 inch cảm ứng đa điểm</p>                 
-                            <h4 class="price">Giá hiện tại: <span>10,990,000.00 vnđ</span></h4>
+                            <p class="product-description"><%=mota%></p>                 
+                            <h4 class="price">Giá hiện tại: <span><%=dongia%></span></h4>
                             <p class="vote"><strong>100%</strong> hàng <strong>Chất lượng</strong>, đảm bảo
                                 <strong>Uy
                                     tín</strong>!</p>
                             
-                            <h5 class="colors">Số lượng:
+                            <!-- <h5 class="colors">Số lượng:
                                 <span class="color orange not-available" data-toggle="tooltip"
                                     title="Hết hàng"></span>
                                 <span class="color green"></span>
@@ -80,11 +106,16 @@
                             <div class="form-group">
                                 <label for="soluong">Số lượng đặt mua:</label>
                                 <input type="number" class="form-control" id="soluong" name="soluong">
-                            </div>
+                            </div> -->
                             <div class="action">
-                                <a class="add-to-cart btn btn-default" id="btnThemVaoGioHang">Thêm vào giỏ hàng</a>
-                                <a class="like btn btn-default" href="#"><span class="fa fa-heart"></span></a>
-                            </div>
+                                <a href="addCart.asp?idProduct=<%=masp%>" class="link-cart">Thêm vào giỏ hàng <i class="fa fa-shopping-cart"></i></a>
+                                <h6 class="mb-0 col-lg-10 pt-1">
+                                    <a href="product.asp" class="text-body" style="color:#b1c23c">
+                                        <i class="fas fa-long-arrow-alt-left me-2"></i>Quay lại trang sản phẩm
+                                    </a>
+
+                                 </h6>
+                            </div>                           
                         </div>
 
                     </div>

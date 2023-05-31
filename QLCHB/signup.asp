@@ -50,16 +50,21 @@ If (Request.ServerVariables("REQUEST_METHOD") = "POST") THEN
 
                 Set id = connDB.execute("SELECT @@IDENTITY AS NewID FROM TAIKHOAN")
                 IdTaiKhoan = id("NewID")                                
-                if NOT id.EOF Then         
-                       cmdTaiKhoan.CommandText = "INSERT INTO KHACHHANG(TenKH,DiaChi,NgaySinh,GioiTinh,Email, SDT, Id) VALUES(?,?,?,?,?,?,?)"
-                       cmdTaiKhoan.parameters.Append cmdTaiKhoan.createParameter("TenKH",202,1,100,TenKH)
-                       cmdTaiKhoan.parameters.Append cmdTaiKhoan.createParameter("DiaChi",202,1,100,DiaChi)
-                       cmdTaiKhoan.parameters.Append cmdTaiKhoan.createParameter("NgaySinh",7,1,10,NgaySinh)
-                       cmdTaiKhoan.parameters.Append cmdTaiKhoan.createParameter("GioiTinh",202,1,10,GioiTinh)
-                       cmdTaikHoan.parameters.Append cmdTaiKhoan.createParameter("Email",202,1,100,TenTK)
-                       cmdTaiKhoan.parameters.Append cmdTaiKhoan.createParameter("SDT",202,1,20,SDT)
-                       cmdTaiKhoan.parameters.Append cmdTaiKhoan.createParameter("Id",3,1,,IdTaiKhoan)
-                       cmdTaiKhoan.execute                      
+                if NOT id.EOF Then
+                       Dim cmdKhachHang
+                       Set cmdKhachHang = Server.CreateObject("ADODB.Command")
+                       cmdKhachHang.ActiveConnection = connDB
+                       cmdKhachHang.CommandType = 1
+                       cmdKhachHang.Prepared = True         
+                       cmdKhachHang.CommandText = "INSERT INTO KHACHHANG(TenKH,DiaChi,NgaySinh,GioiTinh,Email, SDT, Id) VALUES(?,?,?,?,?,?,?)"
+                       cmdKhachHang.parameters.Append cmdKhachHang.createParameter("TenKH",202,1,100,TenKH)
+                       cmdKhachHang.parameters.Append cmdKhachHang.createParameter("DiaChi",202,1,100,DiaChi)
+                       cmdKhachHang.parameters.Append cmdKhachHang.createParameter("NgaySinh",7,1,10,NgaySinh)
+                       cmdKhachHang.parameters.Append cmdKhachHang.createParameter("GioiTinh",202,1,10,GioiTinh)
+                       cmdKhachHang.parameters.Append cmdKhachHang.createParameter("Email",202,1,100,TenTK)
+                       cmdKhachHang.parameters.Append cmdKhachHang.createParameter("SDT",202,1,20,SDT)
+                       cmdKhachHang.parameters.Append cmdKhachHang.createParameter("Id",3,1,,IdTaiKhoan)
+                       cmdKhachHang.execute                      
                        
                        Session("Success") = "New account added!"
                        Response.redirect("login.asp")

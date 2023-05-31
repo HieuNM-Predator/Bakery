@@ -77,7 +77,7 @@ End Sub
                 cmdPrep.parameters.Append cmdPrep.createParameter("description",202,1,255,PostMoTa)
                 cmdPrep.parameters.Append cmdPrep.createParameter("image",202,1,255,PostHinhAnh)
                 ' cmdPrep.parameters.Append cmdPrep.createParameter("status",202,1,255,tinhTrang)
-                cmdPrep.parameters.Append cmdPrep.createParameter("status",11,1,255,PostTinhTrang)
+                cmdPrep.parameters.Append cmdPrep.createParameter("status",11,1,,PostTinhTrang)
                 cmdPrep.parameters.Append cmdPrep.createParameter("MaSP",3,1, ,id)
 
                 cmdPrep.execute
@@ -124,9 +124,9 @@ End Sub
                 <div class="uk-form-controls">
                     <% For Each statusOption in statusOptions %>
                         <% If statusOption = tinhTrang Then %>
-                        <label><input class="uk-radio" type="radio" name="status" value="<%= statusOption %>" checked> <%= statusOption %></label><br>
+                        <label><input class="uk-radio" type="radio" name="statusOption" value="<%= statusOption %>" checked> <%= statusOption %></label><br>
                         <% Else %>
-                        <label><input class="uk-radio" type="radio" name="status" value="<%= statusOption %>"> <%= statusOption %></label><br>
+                        <label><input class="uk-radio" type="radio" name="statusOption" value="<%= statusOption %>"> <%= statusOption %></label><br>
                         <% End If %>
                     <% Next %>
                 </div>

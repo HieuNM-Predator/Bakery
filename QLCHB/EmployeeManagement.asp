@@ -14,7 +14,6 @@
             <table class="table table dark">
                 <thead>
                     <tr>
-                        <th>STT</th>
                         <th>Mã nhân viên</th>
                         <th>Họ tên</th>
                         <th>Email</th>
@@ -40,14 +39,10 @@
 
 
                             Set Result = cmdPrep.execute
-                            Dim i
-                            i = 0
                             do while not Result.EOF
-                            i = i + 1
                     %>
 
                         <tr>
-                            <td><%= i %></td>
                             <td><%=Result("MaNV")%></td>
                             <td><%=Result("TenNV")%></td>
                             <td><%=Result("Email")%></td>

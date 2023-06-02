@@ -4,6 +4,6 @@
 Dim connDB
 set connDB = Server.CreateObject("ADODB.Connection")
 Dim strConnection
-strConnection = "Provider=SQLOLEDB.1;Data Source=DESKTOP-1BD6E39\DUC;Database=QLCHB;User Id=sa;Password=haimecon0102"
+strConnection = "Provider=SQLOLEDB.1;Data Source=DESKTOP-1BD6E39\DUC;Database=QLNV;User Id=sa;Password=haimecon0102"
 connDB.ConnectionString = strConnection
 %>

@@ -14,11 +14,11 @@
             cmdPrep.Parameters(0)=idProduct
             Set rs = cmdPrep.execute 
             If not rs.EOF then
-                 hinhanh = rs("HinhAnh")
-                 masp = rs("MaSP")
-                 ten = rs("TenSP")
-                 mota = rs("MoTa")
-                 dongia = rs("DonGia")
+                masp = rs("MaSP")
+                ten = rs("TenSP")
+                dongia = rs("DonGia")
+                mota = rs("MoTa")
+                hinhanh = rs("HinhAnh")   
             Else
                  rs.Close()
                  Session("Error") = "Sản phẩm không tồn tại"
@@ -27,7 +27,7 @@
          Session("Error") = "Sản phẩm lựa chọn không thể kiểm tra"
     End If
 %>
-<main role="main" style="margin-top:40px; margin-bottom:160px;">
+<main role="main" style="margin-top:40px; margin-bottom:40px;">
     <!-- Block content - Đục lỗ trên giao diện bố cục chung, đặt tên là content -->
     <div class="container mt-4">
         <div id="thongbao" class="alert alert-danger d-none face" role="alert">
@@ -40,10 +40,11 @@
             <div class="container-fliud">
                 <form name="frmsanphamchitiet" id="frmsanphamchitiet" method="post"
                     action="/php/twig/frontend/giohang/themvaogiohang">
-                    <input type="hidden" name="masp" id="masp" value="<%=masp%>">
+                    <!-- <input type="hidden" name="masp" id="masp" value="<%=masp%>">
                     <input type="hidden" name="ten" id="ten" value="<%=ten%>">
                     <input type="hidden" name="dongia" id="dongia" value="<%=dongia%>">
-                    <input type="hidden" name="hinhanh" id="hinhdaidien" value="<%=hinhanh%>">
+                    <input type="hidden" name="mota" id="mota" value="<%=mota%>">
+                    <input type="hidden" name="hinhanh" id="hinhdaidien" value="<%=hinhanh%>"> -->
 
                     <div class="wrapper row">
                         <!-- <div class="preview col-md-6">
@@ -80,6 +81,7 @@
                             <img src="<%=hinhanh%>" class="img-thumbnail">
                         </div>
                         <div class="details col-md-6">
+                            
                             <h3 class="product-title"><%=ten%></h3>
                             <div class="rating">
                                 <div class="stars">
@@ -108,7 +110,7 @@
                                 <input type="number" class="form-control" id="soluong" name="soluong">
                             </div> -->
                             <div class="action">
-                                <a href="addCart.asp?idProduct=<%=masp%>" class="link-cart">Thêm vào giỏ hàng <i class="fa fa-shopping-cart"></i></a>
+                                <a href="addcart.asp?idProduct=<%=masp%>" class="link-cart">Thêm vào giỏ hàng <i class="fa fa-shopping-cart"></i></a>
                                 <h6 class="mb-0 col-lg-10 pt-1">
                                     <a href="product.asp" class="text-body" style="color:#b1c23c">
                                         <i class="fas fa-long-arrow-alt-left me-2"></i>Quay lại trang sản phẩm
@@ -127,4 +129,4 @@
     </div>
     <!-- End block content -->
 </main>
-<!--#include file="layouts/footer.asp"--> 
+<!--#include file="layouts/footer.asp"-->

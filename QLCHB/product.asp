@@ -1,5 +1,5 @@
-<!-- #include file="../connect.asp" -->
-<!--#include file="../layouts/header.asp"-->
+<!-- #include file="connect.asp" -->
+<!--#include file="layouts/header.asp"-->
 <%
 'Phan trang'
 ' ham lam tron so nguyen
@@ -260,4 +260,4 @@
     </nav>
     <!-- End block content -->
 </main>
-<!--#include file="../layouts/footer.asp"--> 
+<!--#include file="layouts/footer.asp"--> 

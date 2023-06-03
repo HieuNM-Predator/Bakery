@@ -1,4 +1,4 @@
-<!-- #include file="../connect.asp" -->
+<!-- #include file="connect.asp" -->
 <%
         'code for delete a product from my cart
         'lay ve product id

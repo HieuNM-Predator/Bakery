@@ -6,7 +6,7 @@
         <div class="d-flex bd-highlight mb-3">
             <div class="me-auto p-2 bd-highlight"><h2>Danh sách nhân viên</h2></div>
             <div class="p-2 bd-highlight">
-                <a href="" class="btn btn-primary">Thêm nhân viên</a>
+                <a href="/AddEmployee.asp" class="btn btn-primary">Thêm nhân viên</a>
             </div>
         </div>
 

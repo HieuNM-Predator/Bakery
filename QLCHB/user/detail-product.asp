@@ -1,5 +1,5 @@
-<!-- #include file="connect.asp" -->
-<!--#include file="layouts/header.asp"-->
+<!-- #include file="../connect.asp" -->
+<!--#include file="../layouts/header.asp"-->
 <%
     Dim idProduct
     idProduct = Request.QueryString("idproduct")
@@ -129,4 +129,4 @@
     </div>
     <!-- End block content -->
 </main>
-<!--#include file="layouts/footer.asp"-->
+<!--#include file="../layouts/footer.asp"-->

@@ -1,5 +1,5 @@
-<!-- #include file="connect.asp" -->
-<!--#include file="layouts/header.asp"-->
+<!-- #include file="../connect.asp" -->
+<!--#include file="../layouts/header.asp"-->
 <%
 'lay ve danh sach product theo id trong my cart
 Dim idList, mycarts, totalProduct, subtotal, statusViews, statusButtons, rs
@@ -171,4 +171,4 @@ If (NOT IsEmpty(Session("mycarts"))) Then
       </div>
     </div>
   </section>
-<!--#include file="layouts/footer.asp"-->
+<!--#include file="../layouts/footer.asp"-->

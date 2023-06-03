@@ -1,4 +1,4 @@
-<!-- #include file="connect.asp" -->
+<!-- #include file="../connect.asp" -->
 
 <%
     Dim sqlString, rs
@@ -6,7 +6,7 @@
     connDB.Open()
     set rs = connDB.execute(sqlString) 
 %>
-<!--#include file="layouts/header.asp"-->
+<!--#include file="../layouts/header.asp"-->
 
 <div class="container-fluid">
     <div class="row row-slide">
@@ -138,4 +138,4 @@ do while not rs.EOF
 
 </div>
 
-<!--#include file="layouts/footer.asp"-->
+<!--#include file="../layouts/footer.asp"-->

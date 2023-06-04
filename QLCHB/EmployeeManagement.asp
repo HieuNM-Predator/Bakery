@@ -52,8 +52,8 @@
                             <td><%=Result("CCCD")%></td>
                             <td><%=Result("NgaySinh")%></td>
                             <td>
-                                <a href="" class="btn btn-secondary"><i class="fa-solid fa-pen-to-square"></i></a>
-                                <a data-href="" class="btn btn-danger"title="Delete"><i class="fa-solid fa-trash"></i></a>
+                                <a href="/EditEmployee.asp?id=<%=Result("MaNV")%>" class="btn btn-secondary"><i class="fa-solid fa-pen-to-square"></i></a>
+                                <a data-href="/DeleteEmployee.asp?id=<%=Result("MaNV")%>" class="btn btn-danger" data-toggle="modal" data-target="#confirm-delete" title="Delete"><i class="fa-solid fa-trash"></i></a>
                             </td>
                         </tr>
 
@@ -64,6 +64,44 @@
                 </tbody>
             </table>
         </div>
+        <!-- <div class="modal" tabindex="-1" id="confirm-delete">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Xác nhận xóa</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Bạn có chắc muốn xóa sản phẩm?</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                    <a class="btn btn-danger btn-delete">Xóa</a>
+                </div>
+            </div>
+        </div>
+    </div> -->
+    <div class="modal" tabindex="-1" role="dialog" id="confirm-delete">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">Xác nhận xóa</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <p>Bạn có chắc muốn xóa sản phẩm?</p>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>
+              <!-- <button type="button" class="btn btn-primary">Xóa sản phẩm</button> -->
+              <a class="btn btn-danger btn-delete">Xóa</a>
+            </div>
+          </div>
+        </div>
+       </div>
+      <!--END confirm delete-->
     </div>
 
 <!-- #include file="layouts/footer.asp" -->

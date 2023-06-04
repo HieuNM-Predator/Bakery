@@ -12,7 +12,7 @@ End Sub
     '     Response.redirect("login.asp")
     ' End If
     Dim statusOptions
-    statusOptions = Array("Còn hàng", "Hết hàng")
+    statusOptions = Array("Nam", "Nữ")
 
     If (Request.ServerVariables("REQUEST_METHOD") = "GET") THEN        
         id = Request.QueryString("id")
@@ -22,26 +22,19 @@ End Sub
             connDB.Open()
             cmdPrep.ActiveConnection = connDB
             cmdPrep.CommandType = 1
-            cmdPrep.CommandText = "SELECT * FROM SANPHAM WHERE MaSP=?"
+            cmdPrep.CommandText = "SELECT * FROM NHANVIEN WHERE MaNV=?"
             ' cmdPrep.parameters.Append cmdPrep.createParameter("MaNV",3,1, ,id)
             cmdPrep.Parameters(0)=id
             Set Result = cmdPrep.execute 
 
             If not Result.EOF then
-                tenSP = Result("TenSP")
-                donGia = Result("DonGia")
-                loai = Result("Loai")
-                moTa = Result("MoTa")
-                hinhAnh = Result("HinhAnh")
-                tinhTrang = Result("TinhTrang")
-                
-                If (Result("TinhTrang") = true) Then
-                    ' true
-                    tinhTrang = "Còn hàng"
-                Else
-                    ' false
-                    tinhTrang = "Hết hàng"
-                End if
+                TenNV = Result("TenNV")
+                Email = Result("Email")
+                SDT = Result("SDT")
+                DiaChi = Result("DiaChi")
+                GioiTinh = Result("GioiTinh")
+                CCCD = Result("CCCD")
+                NgaySinh = Result("NgaySinh")                
             End If
 
             ' Set Result = Nothing
@@ -49,36 +42,29 @@ End Sub
         End If
     Else
         id = Request.QueryString("id")
-        PostTenSP = Request.form("name")
-        PostDonGia = Request.form("price")
-        PostLoai = Request.form("category")
-        PostMoTa = Request.form("description")
-        PostHinhAnh = Request.form("image")
-        PostTinhTrang = Request.form("statusOption")
+        PostTenNV = Request.form("name")
+        PostEmail = Request.form("email")
+        PostSDT = Request.form("SDT")
+        PostDiaChi = Request.form("address")
+        PostGioiTinh = Request.form("StatusOption")
+        PostCCCD = Request.form("CCCD")
+        PostNgaySinh = Request.form("NgaySinh")
 
-        If (PostTinhTrang = "Còn hàng") Then
-            ' true
-            PostTinhTrang = 1
-        Else
-            ' false
-            PostTinhTrang = 0
-        End if
-
-            if (NOT isnull(PostTenSP) and PostTenSP<>"" and NOT isnull(PostDonGia) and PostDonGia<>"" and NOT isnull(PostLoai) and PostLoai<>"" and NOT isnull(PostMoTa) and PostMoTa<>"" and NOT isnull(PostHinhAnh) and PostHinhAnh<>"" and NOT isnull(PostTinhTrang) and PostTinhTrang<>"") then
+            if (NOT isnull(PostTenNV) and PostTenNV<>"" and NOT isnull(PostEmail) and PostEmail<>"" and NOT isnull(PostSDT) and PostSDT<>"" and NOT isnull(PostDiaChi) and PostDiaChi<>"" and NOT isnull(PostGioiTinh) and PostGioiTinh<>"" and NOT isnull(PostCCCD) and PostCCCD<>"" and NOT isnull(PostNgaySinh) and PostNgaySinh<>"") then
                 Set cmdPrep = Server.CreateObject("ADODB.Command")
                 connDB.Open()                
                 cmdPrep.ActiveConnection = connDB
                 cmdPrep.CommandType = 1
                 cmdPrep.Prepared = True
-                cmdPrep.CommandText = "UPDATE SANPHAM SET TenSP=?,DonGia=?,Loai=?,MoTa=?,HinhAnh=?,TinhTrang=? WHERE MaSP=?"
-                cmdPrep.parameters.Append cmdPrep.createParameter("name",202,1,255,PostTenSP)
-                cmdPrep.parameters.Append cmdPrep.createParameter("price",202,1,255,PostDonGia)
-                cmdPrep.parameters.Append cmdPrep.createParameter("category",202,1,255,PostLoai)
-                cmdPrep.parameters.Append cmdPrep.createParameter("description",202,1,255,PostMoTa)
-                cmdPrep.parameters.Append cmdPrep.createParameter("image",202,1,255,PostHinhAnh)
-                ' cmdPrep.parameters.Append cmdPrep.createParameter("status",202,1,255,tinhTrang)
-                cmdPrep.parameters.Append cmdPrep.createParameter("status",11,1,,PostTinhTrang)
-                cmdPrep.parameters.Append cmdPrep.createParameter("MaSP",3,1, ,id)
+                cmdPrep.CommandText = "UPDATE SANPHAM SET TenNV=?,Email=?,SDT=?,DiaChi=?,GioiTinh=?,CCCD=?,NgaySinh=? WHERE MaNV=?"
+                cmdPrep.parameters.Append cmdPrep.createParameter("name",202,1,50,PostTenNV)
+                cmdPrep.parameters.Append cmdPrep.createParameter("email",202,1,100,PostEmail)
+                cmdPrep.parameters.Append cmdPrep.createParameter("phone",202,1,20,PostSDT)
+                cmdPrep.parameters.Append cmdPrep.createParameter("address",202,1,100,PostDiaChi)
+                cmdPrep.parameters.Append cmdPrep.createParameter("gender",202,1,10,PostGioiTinh)
+                cmdPrep.parameters.Append cmdPrep.createParameter("CCCD",202,1,20,PostCCCD)
+                cmdPrep.parameters.Append cmdPrep.createParameter("date",7,1,10,PostNgaySinh)
+                cmdPrep.parameters.Append cmdPrep.createParameter("MaNV",3,1, ,id)
 
                 cmdPrep.execute
                 If Err.Number=0 Then
@@ -108,33 +94,35 @@ End Sub
                 <input type="text" class="form-control" id="email" name="email" value="<%=Email%>">
             </div>
             <div class="mb-3">
-                <label for="phone" class="form-label">Loại</label>
+                <label for="phone" class="form-label">SDT</label>
                 <input type="text" class="form-control" id="phone" name="phone" value="<%=SDT%>">
             </div>
             <div class="mb-3">
-                <label for="address" class="form-label">Mô tả</label>
+                <label for="address" class="form-label">Dịa chỉ</label>
                 <input type="text" class="form-control" id="address" name="address" value="<%=DiaChi%>">
-            </div>
+            </div>            
             <div class="mb-3">
-                <label for="image" class="form-label">Hình ảnh</label>
-                <input type="text" class="form-control" id="image" name="image" value="<%=hinhAnh%>">
-            </div>
-            <div class="mb-3">
-                <label for="status" class="form-label">Tình trạng:</label>
+                <label for="gender" class="form-label">Tình trạng:</label>
                 <div class="uk-form-controls">
-                    <% For Each statusOption in statusOptions %>
-                        <% If statusOption = tinhTrang Then %>
-                        <label><input class="uk-radio" type="radio" name="statusOption" value="<%= statusOption %>" checked> <%= statusOption %></label><br>
+                    <% For Each StatusOption in statusOptions %>
+                        <% If StatusOption = GioiTinh Then %>
+                        <label><input class="uk-radio" type="radio" name="StatusOption" value="<%= StatusOption %>" checked> <%= StatusOption %></label><br>
                         <% Else %>
-                        <label><input class="uk-radio" type="radio" name="statusOption" value="<%= statusOption %>"> <%= statusOption %></label><br>
+                        <label><input class="uk-radio" type="radio" name="StatusOption" value="<%= StatusOption %>"> <%= StatusOption %></label><br>
                         <% End If %>
                     <% Next %>
-                </div>
+                </div>            
             </div>  
+            <div class="mb-3">
+                <label for="CCCD" class="form-label">Hình ảnh</label>
+                <input type="text" class="form-control" id="CCCD" name="CCCD" value="<%=CCCD%>">
+            </div>
+            <div class="mb-3">
+                <label for="date" class="form-label">Hình ảnh</label>
+                <input type="text" class="form-control" id="date" name="date" value="<%=NgaySinh%>">
+            </div>
             <button type="submit" class="btn btn-primary">Cập nhật</button>
-            <a href="ProductManagement.asp" class="btn btn-info">Hủy</a>   
-            <%Response.Write(tinhTrang)
-            %>
+            <a href="EmployeeManagement.asp" class="btn btn-info">Hủy</a>               
         </form>
     </div>
 <!-- #include file="layouts/footer.asp" -->

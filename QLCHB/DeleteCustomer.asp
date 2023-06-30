@@ -16,16 +16,16 @@ On Error Resume Next
     connDB.Open()
     cmdPrep.ActiveConnection = connDB
     cmdPrep.CommandType = 1
-    cmdPrep.CommandText = "DELETE FROM NHANVIEN WHERE MaNV=?"
-    cmdPrep.parameters.Append cmdPrep.createParameter("MaNV",3,1, ,id)
+    cmdPrep.CommandText = "DELETE FROM KHACHHANG WHERE MaKH=?"
+    cmdPrep.parameters.Append cmdPrep.createParameter("MaKH",3,1, ,id)
 
     cmdPrep.execute
     connDB.Close()
     If Err.Number = 0 Then
-    Session("Success") = "Xóa nhân viên thành công!!!"    
+    Session("Success") = "Xóa khách hàng thành công!!!"    
     Else
         Session("Error") = Err.Description
     End If
-    Response.Redirect("EmployeeManagement.asp")
+    Response.Redirect("CustomerManagement.asp")
     On Error Goto 0     
 %>

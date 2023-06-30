@@ -21,10 +21,11 @@ End Sub
         NgaySinh = Request.form("date")
         
         Set cmdID = Server.CreateObject("ADODB.Command")    
+        'Phai dat connDB.Open truoc khi cmdID.ACtiveConnection = connDB'
         connDB.Open()   
         cmdID.ActiveConnection = connDB
         cmdID.CommandType = 1
-        cmdPrep.Prepared = True
+        cmdID.Prepared = True
         cmdID.CommandText = "SELECT * FROM TAIKHOAN WHERE TenTK=?"
         ' cmdPrep.parameters.Append cmdPrep.createParameter("MaNV",3,1, ,id)
         cmdID.Parameters(0) = PostEmail
@@ -63,23 +64,24 @@ End Sub
                 Session("Error") = "Các trường dữ liệu không được để trống!!!"                
             end if   
         Else
-           Session("Error")  = "Lỗi ID"      
+           Session("Error")  = "Lỗi ID"    
+        End if  
 %>
 <!-- #include file="layouts/header.asp" -->
     <div class="container">
         <h2>Thêm nhân viên</h2>   
         <%
            Dim sqlstring
-           sqlstring = "Admin"
+           sqlstring = "Admin" 'Dat ten bien sqlstring co gia tri la Admin'
            Set cmdTaiKhoan = Server.CreateObject("ADODB.Command")      
            cmdTaiKhoan.ActiveConnection = connDB
            cmdTaiKhoan.CommandType = 1
-           cmdPrep.Prepared = True
-           cmdTaiKhoan.CommandText = "SELECT * FROM TAIKHOAN WHERE VaiTro=?"
+           cmdTaiKhoan.Prepared = True
+           cmdTaiKhoan.CommandText = "SELECT * FROM TAIKHOAN WHERE VaiTro=?"  'Lay ra toan bo tu bang tai khoan voi dieu kien Vai tro = sqlstring (loc ra vai tro trong bang tai khoan)'
            ' cmdPrep.parameters.Append cmdPrep.createParameter("MaNV",3,1, ,id)
-           cmdTaiKhoan.Parameters(0)=sqlstring
-           Set Result = cmdTaiKhoan.execute
-           Set Email = Result("TenTK")
+           cmdTaiKhoan.Parameters(0)=sqlstring 'Gan sqlstring cho VaiTro=? ben tren'
+           Set Result = cmdTaiKhoan.execute 'Hien thi ra toan bo ket qua : Id, TenTK, MatKhau, VaiTro trong bang tai khoan dua no vao trong bien Result'
+           Set Email = Result("TenTK")      'Dat mot bien ten la Email gan no bang ket qua TenTK vua hien thi ra trong bien Result (Tuc la lay ra email co vai tro la nhan vien)'
          %>
         <form method="post">
             <div class="mb-3">

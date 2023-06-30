@@ -139,7 +139,7 @@ If (Request.ServerVariables("REQUEST_METHOD") = "POST") THEN
             </div> -->
             <label for="gender" class="form-label">Giới tính:</label>
             <label class="radio-inline gender">
-                <input type="radio" id="male" name="GioiTinh" value="Nam">Nam
+                <input type="radio" id="male" name="GioiTinh" value="Nam" checked>Nam
             </label>
             <label class="radio-inline gender">
                 <input type="radio" id="female" name="GioiTinh" value="Nữ">Nữ

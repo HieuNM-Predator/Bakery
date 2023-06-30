@@ -17,7 +17,7 @@ On Error Resume Next
     cmdPrep.ActiveConnection = connDB
     cmdPrep.CommandType = 1
     cmdPrep.CommandText = "DELETE FROM SANPHAM WHERE MaSP=?"
-    cmdPrep.parameters.Append cmdPrep.createParameter("MaNV",3,1, ,id)
+    cmdPrep.parameters.Append cmdPrep.createParameter("MaSP",3,1, ,id)
 
     cmdPrep.execute
     connDB.Close()

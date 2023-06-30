@@ -8,7 +8,7 @@ On Error Resume Next
     '     Response.redirect("login.asp")
     ' End If
     if (isnull(id) OR trim(id)="") then
-        Response.redirect("EmployeeManagement.asp")
+        Response.redirect("AccountManagement.asp")
         Response.End
     end if
 
@@ -16,16 +16,16 @@ On Error Resume Next
     connDB.Open()
     cmdPrep.ActiveConnection = connDB
     cmdPrep.CommandType = 1
-    cmdPrep.CommandText = "DELETE FROM NHANVIEN WHERE MaNV=?"
-    cmdPrep.parameters.Append cmdPrep.createParameter("MaNV",3,1, ,id)
+    cmdPrep.CommandText = "DELETE FROM TAIKHOAN WHERE Id=?"
+    cmdPrep.parameters.Append cmdPrep.createParameter("Id",3,1, ,id)
 
     cmdPrep.execute
     connDB.Close()
     If Err.Number = 0 Then
-    Session("Success") = "Xóa nhân viên thành công!!!"    
+    Session("Success") = "Xóa nhân viên tài khoản!!!"    
     Else
         Session("Error") = Err.Description
     End If
-    Response.Redirect("EmployeeManagement.asp")
+    Response.Redirect("AccountManagement.asp")
     On Error Goto 0     
 %>

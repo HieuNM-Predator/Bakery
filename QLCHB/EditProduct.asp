@@ -124,9 +124,9 @@ End Sub
                 <div class="uk-form-controls">
                     <% For Each statusOption in statusOptions %>
                         <% If statusOption = tinhTrang Then %>
-                        <label><input class="uk-radio" type="radio" name="statusOption" value="<%= statusOption %>" checked> <%= statusOption %></label><br>
+                        <label><input class="uk-radio" type="radio" name="statusOption" value="<%= statusOption %>" checked> <%= statusOption %></label>
                         <% Else %>
-                        <label><input class="uk-radio" type="radio" name="statusOption" value="<%= statusOption %>"> <%= statusOption %></label><br>
+                        <label><input class="uk-radio" type="radio" name="statusOption" value="<%= statusOption %>"> <%= statusOption %></label>
                         <% End If %>
                     <% Next %>
                 </div>

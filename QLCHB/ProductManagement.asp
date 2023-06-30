@@ -1,7 +1,50 @@
 <!-- #include file="connect.asp" -->
 <!-- #include file="layouts/header.asp" -->
 <!-- #include file="sidebar.asp" -->
+<%
+'Phan trang'
+' ham lam tron so nguyen
+    function Ceil(Number)
+        Ceil = Int(Number)
+        if Ceil<>Number Then
+            Ceil = Ceil + 1
+        end if
+    end function
 
+    function checkPage(cond, ret) 
+        if cond=true then
+            Response.write ret
+        else
+            Response.write ""
+        end if
+    end function
+' trang hien tai
+    page = Request.QueryString("page")
+    limit = 8
+
+    if (trim(page) = "") or (isnull(page)) then
+        page = 1
+    end if
+
+    offset = (Clng(page) * Clng(limit)) - Clng(limit)
+
+    strSQL = "SELECT COUNT(MaSP) AS count FROM SANPHAM"
+    connDB.Open()
+    Set CountResult = connDB.execute(strSQL)
+
+    totalRows = CLng(CountResult("count"))
+
+    Set CountResult = Nothing
+' lay ve tong so trang
+    pages = Ceil(totalRows/limit)
+    'gioi han tong so trang la 5
+    Dim range
+    If (pages<=5) Then
+        range = pages
+    Else
+        range = 5
+    End if
+%>
 <div class="container-fluid">
     <div class="d-flex bd-highlight mb-3">
         <div class="me-auto p-2 bd-highlight"><h2>Danh sách sản phẩm</h2></div>
@@ -27,14 +70,13 @@
 
             <tbody>
                 <%
-                        Set cmdPrep = Server.CreateObject("ADODB.Command")
-                        connDB.Open()
+                        Set cmdPrep = Server.CreateObject("ADODB.Command")                     
                         cmdPrep.ActiveConnection = connDB
                         cmdPrep.CommandType = 1
                         cmdPrep.Prepared = True
-                        cmdPrep.CommandText = "SELECT * FROM SANPHAM"
-                        ' cmdPrep.parameters.Append cmdPrep.createParameter("offset",3,1, ,offset)
-                        ' cmdPrep.parameters.Append cmdPrep.createParameter("limit",3,1, , limit)
+                        cmdPrep.CommandText = "SELECT * FROM SANPHAM ORDER BY MaSP OFFSET ? ROWS FETCH NEXT ? ROWS ONLY"
+                        cmdPrep.parameters.Append cmdPrep.createParameter("offset",3,1, ,offset)
+                        cmdPrep.parameters.Append cmdPrep.createParameter("limit",3,1, , limit)
 
 
                         Set Result = cmdPrep.execute
@@ -72,7 +114,30 @@
             </tbody>
         </table>
     </div>
+    <nav aria-label="Page Navigation">
+        <ul class="pagination pagination-sm justify-content-center my-5">
+            <% if (pages>1) then 
+            'kiem tra trang hien tai co >=2
+                    if(Clng(page)>=2) then
+            %>
+                    <li class="page-item"><a class="page-link" href="ProductManagement.asp?page=<%=Clng(page)-1%>">Previous</a></li>
+            <%    
+                    end if 
+                    for i= 1 to range
+            %>
+                        <li class="page-item <%=checkPage(Clng(i)=Clng(page),"active")%>"><a class="page-link" href="ProductManagement.asp?page=<%=i%>"><%=i%></a></li>
+            <%
+                    next
+                    if (Clng(page)<pages) then
 
+            %>
+                    <li class="page-item"><a class="page-link" href="ProductManagement.asp?page=<%=Clng(page)+1%>">Next</a></li>
+            <%
+                    end if    
+                end if
+            %>
+        </ul>
+    </nav>
     <!-- <div class="modal" tabindex="-1" id="confirm-delete">
         <div class="modal-dialog">
             <div class="modal-content">

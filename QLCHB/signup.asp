@@ -1,6 +1,13 @@
 <!-- #include file="connect.asp" -->
 <!--#include file="layouts/header.asp"-->
 <%
+On Error Resume Next
+' handle Error
+Sub handleError(message)
+    Session("Error") = message
+    'send an email to the admin
+    'Write the error message in an application error log file
+End Sub
 If (Request.ServerVariables("REQUEST_METHOD") = "POST") THEN
      Dim TenTK, MatKhau, TenKH, DiaChi, NgaySinh, GioiTinh, SDT
      TenTK = Request.Form("TenTK")
@@ -76,15 +83,13 @@ If (Request.ServerVariables("REQUEST_METHOD") = "POST") THEN
                 Session("Error") = "You have to input enough info"                
             end if
             'kiem tra ket qua result o day
-            If not result.EOF Then
-               ' dang ki tai khoan thanh cong
-                  Session("email")=result("TenTK")                  
-                  Session("Success") = "Sign up Successfully"
-                  Response.redirect("login.asp")
-             Else
-                ' dang nhap ko thanh cong
-                  Session("Error") = "Wrong email or password"
-            End if
+            If Err.Number=0 Then
+                    Session("Success") = "The employee was added"
+                    Response.redirect("login.asp")
+                Else
+                    handleError(Err.Description)
+                End If
+                On Error Goto 0
             result.Close()
             connDB.Close()
         Else
@@ -134,7 +139,7 @@ If (Request.ServerVariables("REQUEST_METHOD") = "POST") THEN
             </div> -->
             <label for="gender" class="form-label">Giới tính:</label>
             <label class="radio-inline gender">
-                <input type="radio" id="male" name="GioiTinh" value="Nam">Nam
+                <input type="radio" id="male" name="GioiTinh" value="Nam" checked>Nam
             </label>
             <label class="radio-inline gender">
                 <input type="radio" id="female" name="GioiTinh" value="Nữ">Nữ
@@ -145,7 +150,7 @@ If (Request.ServerVariables("REQUEST_METHOD") = "POST") THEN
             <input type="text" class="form-control" id="phone" name="SDT">
         </div>
         <div class="mb-3 pt-3"> 
-        <button type="submit" class="btn-signup">Đăng ký</button>
+            <button type="submit" class="btn-signup">Đăng ký</button>
         </div>
     </form>
 </div>

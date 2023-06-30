@@ -58,9 +58,9 @@
             <div class="container"> 
                 <%
                  ' code here to retrive the data from product table
-                   Dim sqlString, rs
-                   sqlString = "Select * from SANPHAM"
-                   set rs = connDB.execute(sqlString)    
+                   'Dim sqlString, rs
+                   'sqlString = "Select * from SANPHAM"
+                   'set rs = connDB.execute(sqlString)    
                 %>           
                 <div class="row">
                     <%

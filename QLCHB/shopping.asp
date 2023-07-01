@@ -83,7 +83,7 @@ If (NOT IsEmpty(Session("mycarts"))) Then
                           <i class="fas fa-minus"></i>
                         </button>
   
-                        <input id="form1"  min="0" name="quantity" value="<%
+                        <input readonly id="form1"  min="0" name="quantity" value="<%
                                       Dim id
                                       id  = CStr(rs("MaSP"))
                                       Response.Write(mycarts.Item(id))                                     

@@ -19,18 +19,27 @@
         end if
     end function
 ' trang hien tai
+
+    Dim itemSearch
+
+    itemSearch = Request.QueryString("myInput")
+
     page = Request.QueryString("page")
     limit = 8
-
+    connDB.Open()
     if (trim(page) = "") or (isnull(page)) then
         page = 1
     end if
 
     offset = (Clng(page) * Clng(limit)) - Clng(limit)
 
-    strSQL = "SELECT COUNT(MaNV) AS count FROM NHANVIEN"
-    connDB.Open()
-    Set CountResult = connDB.execute(strSQL)
+    If (isnull(itemSearch)) or (trim(itemSearch)="") Then
+       strSQL = "SELECT COUNT(MaNV) AS count FROM NHANVIEN"       
+       Set CountResult = connDB.execute(strSQL)
+    Else
+       strSQL = "SELECT COUNT(MaNV) AS count FROM NHANVIEN WHERE TenNV LIKE '%"&itemSearch&"%'"
+       Set CountResult = connDB.execute(strSQL)
+    End if
 
     totalRows = CLng(CountResult("count"))
 
@@ -48,11 +57,25 @@
     <div class="container-fluid">
         <div class="d-flex bd-highlight mb-3">
             <div class="me-auto p-2 bd-highlight"><h2>Danh sách nhân viên</h2></div>
+            <!--Search-->
+
+        <nav class="navbar navbar-light bg-light">
+
+            <form class="form-inline" method="get">
+
+                <input id="myInput" name="myInput" class="form-control mr-sm-2" type="search" placeholder="Nhập tên nhân viên" aria-label="Tìm kiếm" value="<%=itemSearch%>">
+
+                <button class="btn btn-outline-success my-2 my-sm-0" type="submit"><i class="fa-solid fa-magnifying-glass"></i>Search</a></button>
+
+            </form>
+
+        </nav>
             <div class="p-2 bd-highlight">
                 <a href="/AddEmployee.asp" class="btn btn-primary">Thêm nhân viên</a>
             </div>
         </div>
-
+         
+        <section class="h-100 h-custom" style="background-color: #eee;"></section>
         <div class="table-responsive">
             <table class="table table dark">
                 <thead>
@@ -72,6 +95,7 @@
 
                 <tbody>
                     <%
+                         if(isnull(itemSearch) or trim(itemSearch) = "") Then
                             Set cmdPrep = Server.CreateObject("ADODB.Command")                      
                             cmdPrep.ActiveConnection = connDB
                             cmdPrep.CommandType = 1
@@ -83,8 +107,20 @@
 
                             Set Result = cmdPrep.execute
 
+                          Else
+                            Set cmdPrep = Server.CreateObject("ADODB.Command")
+                            cmdPrep.ActiveConnection = connDB
+                            cmdPrep.CommandType = 1
+                            cmdPrep.Prepared = True
+                            cmdPrep.CommandText = "SELECT MaNV, TenNV, Email, SDT, DiaChi, GioiTinh, CCCD, NgaySinh FROM NHANVIEN WHERE TenNV LIKE '%"&itemSearch&"%' ORDER BY MaNV OFFSET ? ROWS FETCH NEXT ? ROWS ONLY"
+                            cmdPrep.parameters.Append cmdPrep.createParameter("offset",3,1, ,offset)
+                            cmdPrep.parameters.Append cmdPrep.createParameter("limit",3,1, , limit)
+                     
+    
+                            Set Result = cmdPrep.execute
+                        End if
                             Dim i     
-                            i = 0                        
+                            i = (limit*(page-1))                        
                             do while not Result.EOF                                                    
                             i = i + 1
                     %>
@@ -112,6 +148,8 @@
                 </tbody>
             </table>
         </div>
+    </section>
+
         <nav aria-label="Page Navigation">
             <ul class="pagination pagination-sm justify-content-center my-5">
                 <% if (pages>1) then 
@@ -121,7 +159,7 @@
                         <li class="page-item"><a class="page-link" href="EmployeeManagement.asp?page=<%=Clng(page)-1%>">Previous</a></li>
                 <%    
                         end if 
-                        for i= 1 to range
+                        for i= 1 to pages
                 %>
                             <li class="page-item <%=checkPage(Clng(i)=Clng(page),"active")%>"><a class="page-link" href="EmployeeManagement.asp?page=<%=i%>"><%=i%></a></li>
                 <%
@@ -163,7 +201,7 @@
               </button>
             </div>
             <div class="modal-body">
-              <p>Bạn có chắc muốn xóa sản phẩm?</p>
+              <p>Bạn có chắc muốn xóa nhân viên?</p>
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>

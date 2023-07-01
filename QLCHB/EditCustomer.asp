@@ -87,7 +87,7 @@ End Sub
         connDB.Open()
         cmdTaiKhoan.ActiveConnection = connDB
         cmdTaiKhoan.CommandType = 1
-        cmdTaiKhoan.CommandText = "SELECT * FROM TAIKHOAN WHERE TenTK !=? AND VaiTro = ?"
+        cmdTaiKhoan.CommandText = "SELECT * FROM TAIKHOAN WHERE TenTK !=? AND VaiTro = ? AND TenTK NOT IN (SELECT TenTK FROM KHACHHANG)"
         ' cmdPrep.parameters.Append cmdPrep.createParameter("MaNV",3,1, ,id)
         cmdTaiKhoan.Parameters(0)=Email
         cmdTaiKhoan.Parameters(1)=sqlstring

@@ -77,7 +77,7 @@ End Sub
            cmdTaiKhoan.ActiveConnection = connDB
            cmdTaiKhoan.CommandType = 1
            cmdTaiKhoan.Prepared = True
-           cmdTaiKhoan.CommandText = "SELECT * FROM TAIKHOAN WHERE VaiTro=?"  'Lay ra toan bo tu bang tai khoan voi dieu kien Vai tro = sqlstring (loc ra vai tro trong bang tai khoan)'
+           cmdTaiKhoan.CommandText = "SELECT * FROM TAIKHOAN WHERE VaiTro=? AND TenTK NOT IN (SELECT TenTK FROM NHANVIEN)"  'Lay ra toan bo tu bang tai khoan voi dieu kien Vai tro = sqlstring (loc ra vai tro trong bang tai khoan)'
            ' cmdPrep.parameters.Append cmdPrep.createParameter("MaNV",3,1, ,id)
            cmdTaiKhoan.Parameters(0)=sqlstring 'Gan sqlstring cho VaiTro=? ben tren'
            Set Result = cmdTaiKhoan.execute 'Hien thi ra toan bo ket qua : Id, TenTK, MatKhau, VaiTro trong bang tai khoan dua no vao trong bien Result'

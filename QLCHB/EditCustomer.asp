@@ -170,7 +170,7 @@ End Sub
                 <select name="Email" class="form-control">
                    <option value="<%=Email%>"><%=Email%></option>
                    <% do while not Result.EOF %>
-                   <option value="<%=Result("TenTK")%></option>"><%=Result("TenTK")%></option>
+                   <option value="<%=Result("TenTK")%>"><%=Result("TenTK")%></option>
                    <%
                        Result.MoveNext
                        loop

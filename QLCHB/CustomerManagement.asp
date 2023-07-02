@@ -2,6 +2,13 @@
 <!-- #include file="layouts/header.asp" -->
 <!-- #include file="sidebar.asp" -->
 <%
+    If (isnull(Session("email")) OR TRIM(Session("email")) = "") Then
+        Response.redirect("login.asp")
+    End If
+
+    If ((Session("role")) <> "Admin") Then
+        Response.redirect("index.asp")
+    End If
 'Phan trang'
 ' ham lam tron so nguyen
     function Ceil(Number)

@@ -16,9 +16,24 @@ End Sub
         MatKhau = Request.form("password")
         VaiTro = Request.form("VaiTro")
         
+        Set cmdTaiKhoan = Server.CreateObject("ADODB.Command")
+        connDB.Open()
+        cmdTaiKhoan.ActiveConnection = connDB
+        cmdTaiKhoan.CommandType = 1
+        cmdTaiKhoan.Prepared = True
+        cmdTaiKhoan.CommandText = "SELECT * FROM TAIKHOAN WHERE TenTK=?"
+        cmdTaiKhoan.parameters.Append cmdTaiKhoan.createParameter("email",202,1,50,TenTK)
+        Set rs = cmdTaiKhoan.execute
+
+        Dim tk 
+        if rs.EOF OR Isnull(TenTK) Then         
+           tk = 1
+        Else
+           tk = 0
+        End if
+        if(tk<>0) Then
             if (NOT isnull(TenTK) and TenTK<>"" and NOT isnull(MatKhau) and MatKhau<>"" ) then
-                Set cmdPrep = Server.CreateObject("ADODB.Command")
-                connDB.Open()                
+                Set cmdPrep = Server.CreateObject("ADODB.Command")              
                 cmdPrep.ActiveConnection = connDB
                 cmdPrep.CommandType = 1
                 cmdPrep.Prepared = True
@@ -42,6 +57,9 @@ End Sub
             else
                 Session("Error") = "Các trường dữ liệu không được để trống!!!"                
             end if
+        Else 
+           Session("Error") = "Email đã có"
+        End if
         
 %>
 <!-- #include file="layouts/header.asp" -->

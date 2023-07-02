@@ -29,7 +29,11 @@ End Sub
 
             If not Result.EOF then
                 TenKH = Result("TenKH")
-                DiaCHi = Result("DiaCHi")
+                DiaChi = Split(Result("DiaChi"), ",")
+                so_nha = DiaChi(0)
+                xa = DiaChi(1)
+                huyen = DiaChi(2)
+                tinh = DiaChi(3)           
                 NgaySinh = Result("NgaySinh")
                 GioiTinh = Result("GioiTinh")
                 Email = Result("Email")
@@ -42,7 +46,11 @@ End Sub
     Else
         id = Request.QueryString("id")
         PostTenKH = Request.form("name")
-        PostDiaChi = Request.form("address")
+        tinh = Request.Form("Tinh")
+        huyen = Request.Form("Huyen")
+        xa = Request.Form("Xa")
+        so_nha = Request.Form("AddressDetails")
+        PostDiaChi = so_nha&","&xa&","&huyen&","&tinh
         PostNgaySinh = Request.form("gender")
         PostGioiTinh = Request.form("StatusOption")
         PostEmail = Request.form("Email")
@@ -87,7 +95,7 @@ End Sub
         connDB.Open()
         cmdTaiKhoan.ActiveConnection = connDB
         cmdTaiKhoan.CommandType = 1
-        cmdTaiKhoan.CommandText = "SELECT * FROM TAIKHOAN WHERE TenTK !=? AND VaiTro = ?"
+        cmdTaiKhoan.CommandText = "SELECT * FROM TAIKHOAN WHERE TenTK !=? AND VaiTro = ? AND Id NOT IN (SELECT Id FROM KHACHHANG)"
         ' cmdPrep.parameters.Append cmdPrep.createParameter("MaNV",3,1, ,id)
         cmdTaiKhoan.Parameters(0)=Email
         cmdTaiKhoan.Parameters(1)=sqlstring
@@ -100,9 +108,38 @@ End Sub
                 <input type="text" class="form-control" id="name" name="name" value="<%=TenKH%>">
             </div>
             <div class="mb-3">
-                <label for="address" class="form-label">Địa chỉ</label>
-                <input type="text" class="form-control" id="address" name="address" value="<%=DiaChi%>">
-            </div>
+                <label for="address">Tỉnh/Thành phố</label>
+                <input type="text" class="form-control" id="Tinh" name="Tinh" placeholder="Nhập tên tỉnh/thành phố!" value="<%=tinh%>" required>
+                <div class="invalid-feedback">
+                  Please enter your shipping address.
+                </div>
+              </div>
+  
+              <div class="row">
+                <div class="col-md-5 mb-3">
+                  <label for="country">Quận/Huyện</label>
+                  <input type="text" class="form-control" id="Quan" name="Huyen" placeholder="Nhập tên quận/huyện" value="<%=huyen%>" required>
+                  <div class="invalid-feedback">
+                    Please select a valid country.
+                  </div>
+                </div>
+  
+                <div class="col-md-4 mb-3">
+                  <label for="state">Phường/Xã</label>
+                  <input type="text" class="form-control" id="Phuong" name="Xa" placeholder="Nhập tên phường/xã" value="<%=xa%>" required>
+                  <div class="invalid-feedback">
+                    Please provide a valid state.
+                  </div>
+                </div>
+  
+                <div class="col-md-3 mb-3">
+                  <label for="zip">Số nhà</label>
+                  <input type="text" class="form-control" id="AddressDetails" name="AddressDetails" placeholder="Số nhà" value="<%=so_nha%>" required>
+                  <div class="invalid-feedback">
+                    Zip code required.
+                  </div>
+                </div>
+              </div>
             <div class="mb-3">
                 <label for="date" class="form-label">Ngày sinh</label>
                 <input type="date" class="form-control" id="date" name="date" value="<%=NgaySinh%>">
@@ -136,7 +173,7 @@ End Sub
                 <input type="text" class="form-control" id="phone" name="phone" value="<%=SDT%>">
             </div>
             <button type="submit" class="btn btn-primary">Cập nhật</button>
-            <a href="EmployeeManagement.asp" class="btn btn-info">Hủy</a>               
+            <a href="CustomerManagement.asp" class="btn btn-info">Hủy</a>               
         </form>
     </div>
 <!-- #include file="layouts/footer.asp" -->

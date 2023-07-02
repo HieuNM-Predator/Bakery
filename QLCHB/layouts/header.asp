@@ -92,5 +92,5 @@
         %>
     </div>
 
-    <div class="main-content">
+    <div class="main-content" style="height: 100%;">
         <!-- main content is in here -->

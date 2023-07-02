@@ -36,7 +36,7 @@
        strSQL = "SELECT COUNT(MaKH) AS count FROM KHACHHANG"       
        Set CountResult = connDB.execute(strSQL)
     Else
-       strSQL = "SELECT COUNT(MaKH) AS count FROM KHACHHANG WHERE TenKH LIKE '%"&itemSearch&"%'"
+       strSQL = "SELECT COUNT(MaKH) AS count FROM KHACHHANG WHERE TenKH LIKE N'%"&itemSearch&"%'"
        Set CountResult = connDB.execute(strSQL)
     End if
 
@@ -111,7 +111,7 @@
                         cmdPrep.ActiveConnection = connDB
                         cmdPrep.CommandType = 1
                         cmdPrep.Prepared = True
-                        cmdPrep.CommandText = "SELECT MaKH, TenKH, DiaChi, NgaySinh, GioiTinh, Email, SDT FROM KHACHHANG WHERE TenKH LIKE '%"&itemSearch&"%' ORDER BY MaKH OFFSET ? ROWS FETCH NEXT ? ROWS ONLY"
+                        cmdPrep.CommandText = "SELECT MaKH, TenKH, DiaChi, NgaySinh, GioiTinh, Email, SDT FROM KHACHHANG WHERE TenKH LIKE N'%"&itemSearch&"%' ORDER BY MaKH OFFSET ? ROWS FETCH NEXT ? ROWS ONLY"
                         cmdPrep.parameters.Append cmdPrep.createParameter("offset",3,1, ,offset)
                         cmdPrep.parameters.Append cmdPrep.createParameter("limit",3,1, , limit)
                  

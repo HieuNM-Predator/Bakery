@@ -16,7 +16,7 @@ End Sub
 
     If (Request.ServerVariables("REQUEST_METHOD") = "GET") THEN        
         id = Request.QueryString("id")
-        
+
         If (cint(id)<>0) Then
             Set cmdPrep = Server.CreateObject("ADODB.Command")
             connDB.Open()

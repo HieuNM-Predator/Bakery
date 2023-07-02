@@ -73,14 +73,14 @@
                         cmdPrep.ActiveConnection = connDB
                         cmdPrep.CommandType = 1
                         cmdPrep.Prepared = True
-                        cmdPrep.CommandText = "SELECT MaHD, MaKH, Tong, NgayLap FROM HOADON ORDER BY MaHD OFFSET ? ROWS FETCH NEXT ? ROWS ONLY"
+                        cmdPrep.CommandText = "SELECT MaHD,MaKH, Tong, NgayLap FROM HOADON ORDER BY MaHD OFFSET ? ROWS FETCH NEXT ? ROWS ONLY"
                         cmdPrep.parameters.Append cmdPrep.createParameter("offset",3,1, ,offset)
                         cmdPrep.parameters.Append cmdPrep.createParameter("limit",3,1, , limit)
 
 
                         Set Result = cmdPrep.execute
                         Dim i
-                        i = 0
+                        i = (limit*(page-1))
                         do while not Result.EOF
                         i = i + 1
                 %>

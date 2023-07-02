@@ -159,8 +159,7 @@ If (NOT IsEmpty(Session("mycarts"))) Then
                       <h5>VND <%= subtotal %></h5>
                     </div>
                     <div class="row">
-                      <button type="button" class="btn btn-success btn-lg"
-                        data-mdb-ripple-color="dark"><a href="Checkout.asp">Thanh toán</a></button>
+                      <a href="CheckOut.asp?Totals=<%=subtotal%>&totalProduct=<%=totalProduct%>" class="btn btn-success">Thanh toán</a>
                     </div>
                   </div>
                 </div>

@@ -15,7 +15,11 @@ End Sub
         TenNV = Request.form("name")
         PostEmail = Request.form("email")
         SDT = Request.form("phone")
-        DiaChi = Request.form("address")
+        tinh = Request.Form("Tinh")
+        huyen = Request.Form("Huyen")
+        xa = Request.Form("Xa")
+        so_nha = Request.Form("AddressDetails")
+        DiaChi = so_nha&","&xa&","&huyen&","&tinh
         GioiTinh = Request.form("gender")
         CCCD = Request.form("CCCD")
         NgaySinh = Request.form("date")
@@ -77,7 +81,7 @@ End Sub
            cmdTaiKhoan.ActiveConnection = connDB
            cmdTaiKhoan.CommandType = 1
            cmdTaiKhoan.Prepared = True
-           cmdTaiKhoan.CommandText = "SELECT * FROM TAIKHOAN WHERE VaiTro=? AND TenTK NOT IN (SELECT TenTK FROM NHANVIEN)"  'Lay ra toan bo tu bang tai khoan voi dieu kien Vai tro = sqlstring (loc ra vai tro trong bang tai khoan)'
+           cmdTaiKhoan.CommandText = "SELECT * FROM TAIKHOAN WHERE VaiTro=? AND Id NOT IN (SELECT Id FROM NHANVIEN)"  'Lay ra toan bo tu bang tai khoan voi dieu kien Vai tro = sqlstring (loc ra vai tro trong bang tai khoan)'
            ' cmdPrep.parameters.Append cmdPrep.createParameter("MaNV",3,1, ,id)
            cmdTaiKhoan.Parameters(0)=sqlstring 'Gan sqlstring cho VaiTro=? ben tren'
            Set Result = cmdTaiKhoan.execute 'Hien thi ra toan bo ket qua : Id, TenTK, MatKhau, VaiTro trong bang tai khoan dua no vao trong bien Result'
@@ -106,9 +110,38 @@ End Sub
                 <input type="text" class="form-control" id="phone" name="phone" value="<%=SDT%>">
             </div>
             <div class="mb-3">
-                <label for="address" class="form-label">Địa chỉ</label>
-                <input type="text" class="form-control" id="address" name="address" value="<%=DiaChi%>">
-            </div>            
+                <label for="address">Tỉnh/Thành phố</label>
+                <input type="text" class="form-control" id="Tinh" name="Tinh" placeholder="Nhập tên tỉnh/thành phố!" value="<%=tinh%>" required>
+                <div class="invalid-feedback">
+                  Please enter your shipping address.
+                </div>
+              </div>
+  
+              <div class="row">
+                <div class="col-md-5 mb-3">
+                  <label for="country">Quận/Huyện</label>
+                  <input type="text" class="form-control" id="Quan" name="Huyen" placeholder="Nhập tên quận/huyện" value="<%=huyen%>" required>
+                  <div class="invalid-feedback">
+                    Please select a valid country.
+                  </div>
+                </div>
+  
+                <div class="col-md-4 mb-3">
+                  <label for="state">Phường/Xã</label>
+                  <input type="text" class="form-control" id="Phuong" name="Xa" placeholder="Nhập tên phường/xã" value="<%=xa%>" required>
+                  <div class="invalid-feedback">
+                    Please provide a valid state.
+                  </div>
+                </div>
+  
+                <div class="col-md-3 mb-3">
+                  <label for="zip">Số nhà</label>
+                  <input type="text" class="form-control" id="AddressDetails" name="AddressDetails" placeholder="Số nhà" value="<%=so_nha%>" required>
+                  <div class="invalid-feedback">
+                    Zip code required.
+                  </div>
+                </div>
+              </div>            
             <div class="mb-3">
                 <label for="gender" class="form-label">Giới tính:</label>
                 <div class="uk-form-controls">

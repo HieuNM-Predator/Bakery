@@ -160,7 +160,7 @@ If (NOT IsEmpty(Session("mycarts"))) Then
                     </div>
                     <div class="row">
                       <button type="button" class="btn btn-success btn-lg"
-                        data-mdb-ripple-color="dark">Thanh toán</button>
+                        data-mdb-ripple-color="dark"><a href="Checkout.asp">Thanh toán</a></button>
                     </div>
                   </div>
                 </div>

@@ -13,7 +13,11 @@ If (Request.ServerVariables("REQUEST_METHOD") = "POST") THEN
      TenTK = Request.Form("TenTK")
      MatKhau = Request.Form("MatKhau")
      TenKH = Request.Form("TenKH")
-     DiaChi = Request.Form("DiaChi")
+     tinh = Request.Form("Tinh")
+     huyen = Request.Form("Huyen")
+     xa = Request.Form("Xa")
+     so_nha = Request.Form("AddressDetails")
+     DiaChi = so_nha&","&xa&","&huyen&","&tinh
      NgaySinh = Request.Form("NgaySinh")
      GioiTinh = Request.Form("GioiTinh")
      SDT = Request.Form("SDT")
@@ -118,8 +122,37 @@ If (Request.ServerVariables("REQUEST_METHOD") = "POST") THEN
             <input type="password" class="form-control" id="password" name="MatKhau">
         </div>
         <div class="mb-3">
-            <label for="address" class="form-label">Địa chỉ</label>
-            <input type="text" class="form-control" id="address" name="DiaChi">
+            <label for="address">Tỉnh/Thành phố</label>
+            <input type="text" class="form-control" id="Tinh" name="Tinh" placeholder="Nhập tên tỉnh/thành phố!" value="<%=tinh%>" required>
+            <div class="invalid-feedback">
+              Please enter your shipping address.
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-5 mb-3">
+              <label for="country">Quận/Huyện</label>
+              <input type="text" class="form-control" id="Quan" name="Huyen" placeholder="Nhập tên quận/huyện" value="<%=huyen%>" required>
+              <div class="invalid-feedback">
+                Please select a valid country.
+              </div>
+            </div>
+
+            <div class="col-md-4 mb-3">
+              <label for="state">Phường/Xã</label>
+              <input type="text" class="form-control" id="Phuong" name="Xa" placeholder="Nhập tên phường/xã" value="<%=xa%>" required>
+              <div class="invalid-feedback">
+                Please provide a valid state.
+              </div>
+            </div>
+
+            <div class="col-md-3 mb-3">
+              <label for="zip">Số nhà</label>
+              <input type="text" class="form-control" id="AddressDetails" name="AddressDetails" placeholder="Số nhà" value="<%=so_nha%>" required>
+              <div class="invalid-feedback">
+                Zip code required.
+              </div>
+            </div>
         </div>
         <div class="mb-3">
             <label for="DoB" class="form-label">Ngày sinh</label>

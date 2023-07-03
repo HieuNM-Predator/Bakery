@@ -2,6 +2,13 @@
 <!-- #include file="layouts/header.asp" -->
 <!-- #include file="sidebar.asp" -->
 <%
+    'If (isnull(Session("email")) OR TRIM(Session("email")) = "") Then
+        'Response.redirect("login.asp")
+    'End If
+
+    'If ((Session("role")) <> "Admin") Then
+        'Response.redirect("index.asp")
+    'End If
 'Phan trang'
 ' ham lam tron so nguyen
     function Ceil(Number)
@@ -37,7 +44,7 @@
        strSQL = "SELECT COUNT(Id) AS count FROM TAIKHOAN"       
        Set CountResult = connDB.execute(strSQL)
     Else
-       strSQL = "SELECT COUNT(Id) AS count FROM TAIKHOAN WHERE TenTK LIKE '%"&itemSearch&"%'"
+       strSQL = "SELECT COUNT(Id) AS count FROM TAIKHOAN WHERE TenTK LIKE N'%"&itemSearch&"%'"
        Set CountResult = connDB.execute(strSQL)
     End if
 
@@ -108,7 +115,7 @@
                         cmdPrep.ActiveConnection = connDB
                         cmdPrep.CommandType = 1
                         cmdPrep.Prepared = True
-                        cmdPrep.CommandText = "SELECT Id, TenTK, MatKhau, VaiTro FROM TAIKHOAN WHERE TenTK LIKE '%"&itemSearch&"%' ORDER BY Id OFFSET ? ROWS FETCH NEXT ? ROWS ONLY"
+                        cmdPrep.CommandText = "SELECT Id, TenTK, MatKhau, VaiTro FROM TAIKHOAN WHERE TenTK LIKE N'%"&itemSearch&"%' ORDER BY Id OFFSET ? ROWS FETCH NEXT ? ROWS ONLY"
                         cmdPrep.parameters.Append cmdPrep.createParameter("offset",3,1, ,offset)
                         cmdPrep.parameters.Append cmdPrep.createParameter("limit",3,1, , limit)
                  

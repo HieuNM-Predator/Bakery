@@ -1,5 +1,6 @@
 <!-- #include file="connect.asp" -->
 <!--#include file="layouts/header.asp"-->
+<!-- #include file="sidebar.asp" -->
 <%
     Dim idBill
     idBill = Request.QueryString("idBill")
@@ -10,16 +11,16 @@
             connDB.Open()
             cmdPrep.ActiveConnection = connDB
             cmdPrep.CommandType = 1
-            cmdPrep.CommandText = "SELECT * FROM CTHD WHERE MaHD=?"
+            cmdPrep.CommandText = "SELECT * FROM CTHD INNER JOIN SANPHAM ON CTHD.MaSP = SANPHAM.MaSP WHERE MaHD=?"
             cmdPrep.Parameters(0)=idBill
             Set rs = cmdPrep.execute 
             If not rs.EOF then
-                madh = rs("MaDH")
-                mahd = rs("MaHD")
-                masp = rs("MaSP")
-                soluong = rs("SoLuong")              
+                Set madh = rs("MaDH")
+                Set mahd = rs("MaHD")
+                Set tensp = rs("TenSP")
+                Set soluong = rs("SoLuong")              
             Else
-                 rs.Close()
+                 connDB.Close()
                  Session("Error") = "Hoá đơn không tồn tại"
             End If
     Else 
@@ -37,18 +38,24 @@
                 <tr>
                     <th>Mã đơn hàng</th>
                     <th>Mã hóa đơn</th>
-                    <th>Mã sản phẩm</th>
+                    <th>Tên sản phẩm</th>
                     <th>Số lượng</th>                
                 </tr>
             </thead>
 
             <tbody>
+                <% do while Not rs.EOF %>
                     <tr>                       
                         <td><%=madh%></td>
                         <td><%=mahd%></td>
-                        <td><%=masp%></td>
+                        <td><%=tensp%></td>
                         <td><%=soluong%></td>
                     </tr>
+                <%
+                   rs.MoveNext
+                   loop
+                   rs.Close()
+                %>
             </tbody>
         </table>
     </div>

@@ -2,7 +2,13 @@
 <!-- #include file="layouts/header.asp" -->
 <!-- #include file="sidebar.asp" -->
 <%
+    If (isnull(Session("email")) OR TRIM(Session("email")) = "") Then
+        Response.redirect("login.asp")
+    End If
 
+    If ((Session("role")) <> "Admin") Then
+        Response.redirect("index.asp")
+    End If
 'Phan trang'
 ' ham lam tron so nguyen
     function Ceil(Number)
@@ -29,7 +35,7 @@
 
     offset = (Clng(page) * Clng(limit)) - Clng(limit)
 
-    strSQL = "SELECT COUNT(MaHD) AS count FROM HOADON"
+    strSQL = "SELECT COUNT(MaHD) AS count FROM HOADON INNER JOIN KHACHHANG ON HOADON.MaKH = KHACHHANG.MaKH"
     connDB.Open()
     Set CountResult = connDB.execute(strSQL)
 
@@ -60,7 +66,7 @@
                 <tr>
                     <th>STT</th>
                     <th>Mã hóa đơn</th>
-                    <th>Mã khách hàng</th>
+                    <th>Tên khách hàng</th>
                     <th>Tổng</th>
                     <th>Ngày lập</th>   
                     <th>View</th>                
@@ -73,14 +79,14 @@
                         cmdPrep.ActiveConnection = connDB
                         cmdPrep.CommandType = 1
                         cmdPrep.Prepared = True
-                        cmdPrep.CommandText = "SELECT MaHD, MaKH, Tong, NgayLap FROM HOADON ORDER BY MaHD OFFSET ? ROWS FETCH NEXT ? ROWS ONLY"
+                        cmdPrep.CommandText = "SELECT MaHD,TenKH, Tong, NgayLap FROM HOADON INNER JOIN KHACHHANG ON HOADON.MaKH = KHACHHANG.MaKH ORDER BY MaHD OFFSET ? ROWS FETCH NEXT ? ROWS ONLY"
                         cmdPrep.parameters.Append cmdPrep.createParameter("offset",3,1, ,offset)
                         cmdPrep.parameters.Append cmdPrep.createParameter("limit",3,1, , limit)
 
 
                         Set Result = cmdPrep.execute
                         Dim i
-                        i = 0
+                        i = (limit*(page-1))
                         do while not Result.EOF
                         i = i + 1
                 %>
@@ -88,12 +94,10 @@
                     <tr>
                         <td><%= i %></td>
                         <td><%=Result("MaHD")%></td>
-                        <td><%=Result("MaKH")%></td>
+                        <td><%=Result("TenKH")%></td>
                         <td><%=Result("Tong")%></td>
                         <td><%=Result("NgayLap")%></td>
                          <td>
-                             <!-- <a href="/EditCustomer.asp?id=<%=Result("MaKH")%>" class="btn btn-secondary"><i class="fa-solid fa-pen-to-square"></i></a>
-                            <a data-href="/DeleteCustomer.asp?id=<%=Result("MaKH")%>" class="btn btn-danger" data-toggle="modal" data-target="#confirm-delete" title="Delete"><i class="fa-solid fa-trash"></i></a> -->
                              <a href="detail-bill.asp?idBill=<%=Result("MaHD")%>" class="detail-product pull-right"><i class="fa-solid fa-circle-info"></i></a> 
                         </td>
                     </tr>

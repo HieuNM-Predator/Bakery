@@ -49,22 +49,31 @@ End Sub
         PostTenNV = Request.form("name")
         PostEmail = Request.form("email")
         PostSDT = Request.form("phone")
-        tinh = Request.Form("Tinh")
-        huyen = Request.Form("Huyen")
-        xa = Request.Form("Xa")
+        tinh = Request.form("Tinh")
+        huyen = Request.form("Huyen")
+        xa = Request.form("Xa")
         so_nha = Request.Form("AddressDetails")
         PostDiaChi = so_nha&","&xa&","&huyen&","&tinh
         PostGioiTinh = Request.form("StatusOption")
         PostCCCD = Request.form("CCCD")
         PostNgaySinh = Request.form("date")
 
+        Set cmdTaiKhoan = Server.CreateObject("ADODB.Command")
+        connDB.Open()
+        cmdTaiKhoan.ActiveConnection = connDB
+        cmdTaiKhoan.CommandType = 1
+        cmdTaiKhoan.CommandText = "SELECT * FROM TAIKHOAN WHERE TenTK =?"
+        ' cmdPrep.parameters.Append cmdPrep.createParameter("MaNV",3,1, ,id)
+        cmdTaiKhoan.Parameters(0)=PostEmail
+        Set rs = cmdTaiKhoan.execute
+        PostID = rs("Id")
+
             if (NOT isnull(PostTenNV) and PostTenNV<>"" and NOT isnull(PostEmail) and PostEmail<>"" and NOT isnull(PostSDT) and PostSDT<>"" and NOT isnull(PostDiaChi) and PostDiaChi<>"" and NOT isnull(PostGioiTinh) and PostGioiTinh<>"" and NOT isnull(PostCCCD) and PostCCCD<>"" and NOT isnull(PostNgaySinh) and PostNgaySinh<>"") then
-                Set cmdPrep = Server.CreateObject("ADODB.Command")
-                connDB.Open()                
+                Set cmdPrep = Server.CreateObject("ADODB.Command")               
                 cmdPrep.ActiveConnection = connDB
                 cmdPrep.CommandType = 1
                 cmdPrep.Prepared = True
-                cmdPrep.CommandText = "UPDATE NHANVIEN SET TenNV=?,Email=?,SDT=?,DiaChi=?,GioiTinh=?,CCCD=?,NgaySinh=? WHERE MaNV=?"
+                cmdPrep.CommandText = "UPDATE NHANVIEN SET TenNV=?,Email=?,SDT=?,DiaChi=?,GioiTinh=?,CCCD=?,NgaySinh=?,Id=? WHERE MaNV=?"
                 cmdPrep.parameters.Append cmdPrep.createParameter("name",202,1,50,PostTenNV)
                 cmdPrep.parameters.Append cmdPrep.createParameter("email",202,1,100,PostEmail)
                 cmdPrep.parameters.Append cmdPrep.createParameter("phone",202,1,20,PostSDT)
@@ -72,6 +81,7 @@ End Sub
                 cmdPrep.parameters.Append cmdPrep.createParameter("gender",202,1,10,PostGioiTinh)
                 cmdPrep.parameters.Append cmdPrep.createParameter("CCCD",202,1,20,PostCCCD)
                 cmdPrep.parameters.Append cmdPrep.createParameter("date",7,1,10,PostNgaySinh)
+                cmdPrep.parameters.Append cmdPrep.createParameter("Id",3,1, ,PostID)
                 cmdPrep.parameters.Append cmdPrep.createParameter("MaNV",3,1, ,id)
 
                 cmdPrep.execute

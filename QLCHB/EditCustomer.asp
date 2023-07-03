@@ -46,30 +46,40 @@ End Sub
     Else
         id = Request.QueryString("id")
         PostTenKH = Request.form("name")
-        tinh = Request.Form("Tinh")
-        huyen = Request.Form("Huyen")
-        xa = Request.Form("Xa")
-        so_nha = Request.Form("AddressDetails")
+        tinh = Request.form("Tinh")
+        huyen = Request.form("Huyen")
+        xa = Request.form("Xa")
+        so_nha = Request.form("AddressDetails")
         PostDiaChi = so_nha&","&xa&","&huyen&","&tinh
-        PostNgaySinh = Request.form("gender")
+        PostNgaySinh = Request.form("date")
         PostGioiTinh = Request.form("StatusOption")
         PostEmail = Request.form("Email")
         PostSDT = Request.form("phone")
 
-            if (NOT isnull(PostTenKH) and PostTenKH<>"" and NOT isnull(PostDiaChi) and PostDiaChi<>"" and NOT isnull(PostNgaySinh) and PostNgaySinh<>"" and NOT isnull(PostGioiTinh) and PostGioiTinh<>"" and NOT isnull(PostEmail) and PostEmail<>"" and NOT isnull(PostSDT) and PostSDT<>"" ) then
-                Set cmdPrep = Server.CreateObject("ADODB.Command")
-                connDB.Open()                
+        Set cmdTaiKhoan = Server.CreateObject("ADODB.Command")
+        connDB.Open()
+        cmdTaiKhoan.ActiveConnection = connDB
+        cmdTaiKhoan.CommandType = 1
+        cmdTaiKhoan.CommandText = "SELECT * FROM TAIKHOAN WHERE TenTK =?"
+        ' cmdPrep.parameters.Append cmdPrep.createParameter("MaNV",3,1, ,id)
+        cmdTaiKhoan.Parameters(0)=PostEmail
+        Set rs = cmdTaiKhoan.execute
+        PostID = rs("Id")
+
+            if (NOT isnull(PostTenKH) and PostTenKH<>"" and NOT isnull(PostDiaChi) and PostDiaChi<>"" and NOT isnull(PostNgaySinh) and PostNgaySinh<>"" and NOT isnull(PostGioiTinh) and PostGioiTinh<>"" and NOT isnull(PostEmail) and PostEmail<>"" and NOT isnull(PostSDT) and PostSDT<>"" ) then   
+                Set cmdPrep = Server.CreateObject("ADODB.Command")              
                 cmdPrep.ActiveConnection = connDB
                 cmdPrep.CommandType = 1
                 cmdPrep.Prepared = True
-                cmdPrep.CommandText = "UPDATE SANPHAM SET TenKH=?,DiaChi=?,NgaySinh=?,GioiTinh=?,Email=?,SDT=? WHERE MaKH=?"
-                cmdPrep.parameters.Append cmdPrep.createParameter("name",202,1,50,PostTenKH)
+                cmdPrep.CommandText = "UPDATE KHACHHANG SET TenKH=?,DiaChi=?,NgaySinh=?,GioiTinh=?,Email=?,SDT=?,Id=? WHERE MaKH=?"
+                cmdPrep.parameters.Append cmdPrep.createParameter("name",202,1,100,PostTenKH)
                 cmdPrep.parameters.Append cmdPrep.createParameter("address",202,1,100,PostDiaChi)
-                cmdPrep.parameters.Append cmdPrep.createParameter("date",202,1,20,PostNgaySinh)
-                cmdPrep.parameters.Append cmdPrep.createParameter("gender",202,1,100,PostGioiTinh)
-                cmdPrep.parameters.Append cmdPrep.createParameter("Email",202,1,10,PostEmail)
+                cmdPrep.parameters.Append cmdPrep.createParameter("date",7,1,10,PostNgaySinh)
+                cmdPrep.parameters.Append cmdPrep.createParameter("gender",202,1,10,"Nam")
+                cmdPrep.parameters.Append cmdPrep.createParameter("email",202,1,100,PostEmail)
                 cmdPrep.parameters.Append cmdPrep.createParameter("phone",202,1,20,PostSDT)
-                cmdPrep.parameters.Append cmdPrep.createParameter("MaKH",3,1, ,id)
+                cmdPrep.parameters.Append cmdPrep.createParameter("Id",3,1, ,PostID)
+                cmdPrep.parameters.Append cmdPrep.createParameter("MaKH",3,1, ,id)    
 
                 cmdPrep.execute
                 If Err.Number=0 Then
@@ -82,7 +92,7 @@ End Sub
             else
                 Session("Error") = "Các trường dữ liệu không được để trống!!!"
             end if
-        end if
+    end if
     
 %>
 <!-- #include file="layouts/header.asp" -->
@@ -90,7 +100,7 @@ End Sub
         <h2>Sửa thông tin khách hàng</h2>
         <%
         Dim sqlstring
-        sqlstring = "KhachHang" 'Dat ten bien sqlstring co gia tri la KhachHang'
+        sqlstring = "KhachHang" 'Dat ten bien sqlstring co gia tri la Admin'
         Set cmdTaiKhoan = Server.CreateObject("ADODB.Command")
         connDB.Open()
         cmdTaiKhoan.ActiveConnection = connDB
@@ -98,9 +108,8 @@ End Sub
         cmdTaiKhoan.CommandText = "SELECT * FROM TAIKHOAN WHERE TenTK !=? AND VaiTro = ? AND Id NOT IN (SELECT Id FROM KHACHHANG)"
         ' cmdPrep.parameters.Append cmdPrep.createParameter("MaNV",3,1, ,id)
         cmdTaiKhoan.Parameters(0)=Email
-        cmdTaiKhoan.Parameters(1)=sqlstring
-        Set Result = cmdTaiKhoan.execute
-
+        cmdTaiKhoan.Parameters(1)=sqlString
+        Set Result = cmdTaiKhoan.execute    
         %>
         <form method="post">
             <div class="mb-3">
@@ -161,7 +170,7 @@ End Sub
                 <select name="Email" class="form-control">
                    <option value="<%=Email%>"><%=Email%></option>
                    <% do while not Result.EOF %>
-                   <option value="<%=Result("TenTK")%></option>"><%=Result("TenTK")%></option>
+                   <option value="<%=Result("TenTK")%>"><%=Result("TenTK")%></option>
                    <%
                        Result.MoveNext
                        loop

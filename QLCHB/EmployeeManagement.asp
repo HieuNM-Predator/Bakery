@@ -2,6 +2,13 @@
 <!-- #include file="layouts/header.asp" -->
 <!-- #include file="sidebar.asp" -->
 <%
+    If (isnull(Session("email")) OR TRIM(Session("email")) = "") Then
+        Response.redirect("login.asp")
+    End If
+    
+    If ((Session("role")) <> "Admin") Then
+        Response.redirect("index.asp")
+    End If
 'Phan trang'
 ' ham lam tron so nguyen
     function Ceil(Number)
@@ -37,7 +44,7 @@
        strSQL = "SELECT COUNT(MaNV) AS count FROM NHANVIEN"       
        Set CountResult = connDB.execute(strSQL)
     Else
-       strSQL = "SELECT COUNT(MaNV) AS count FROM NHANVIEN WHERE TenNV LIKE '%"&itemSearch&"%'"
+       strSQL = "SELECT COUNT(MaNV) AS count FROM NHANVIEN WHERE TenNV LIKE N'%"&itemSearch&"%'"
        Set CountResult = connDB.execute(strSQL)
     End if
 
@@ -112,7 +119,7 @@
                             cmdPrep.ActiveConnection = connDB
                             cmdPrep.CommandType = 1
                             cmdPrep.Prepared = True
-                            cmdPrep.CommandText = "SELECT MaNV, TenNV, Email, SDT, DiaChi, GioiTinh, CCCD, NgaySinh FROM NHANVIEN WHERE TenNV LIKE '%"&itemSearch&"%' ORDER BY MaNV OFFSET ? ROWS FETCH NEXT ? ROWS ONLY"
+                            cmdPrep.CommandText = "SELECT MaNV, TenNV, Email, SDT, DiaChi, GioiTinh, CCCD, NgaySinh FROM NHANVIEN WHERE TenNV LIKE N'%"&itemSearch&"%' ORDER BY MaNV OFFSET ? ROWS FETCH NEXT ? ROWS ONLY"
                             cmdPrep.parameters.Append cmdPrep.createParameter("offset",3,1, ,offset)
                             cmdPrep.parameters.Append cmdPrep.createParameter("limit",3,1, , limit)
                      

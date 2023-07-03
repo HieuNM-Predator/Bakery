@@ -50,6 +50,8 @@
                             ' true
                     %>
                             <span class="navbar-text">Xin chào <%=Session("email")%>!</span>
+                            <a href="EditCustomerClient.asp" class="icon-logout" style="color: #fff; margin-left: 7px;
+                            padding: 8px;"><i class="fa-solid fa-bars"></i></a>
                             <a href="logout.asp" class="icon-logout" style="color: #fff; margin-left: 7px;
                             padding: 8px;"><i class="fa-solid fa-arrow-right-from-bracket"></i></a>
                     <%

@@ -73,18 +73,18 @@ End Sub
     <div class="container">
         <h2>Thêm khách hàng</h2>
         <%
-         Dim sqlstring
-         sqlstring = "KhachHang" 'Dat ten bien sqlstring co gia tri la KhachHang'
-         Set cmdTaiKhoan = Server.CreateObject("ADODB.Command")
-         cmdTaiKhoan.ActiveConnection = connDB
-         cmdTaiKhoan.CommandType = 1
-         cmdTaiKhoan.Prepared = True
-         cmdTaiKhoan.CommandText = "SELECT * FROM TAIKHOAN WHERE VaiTro = ? AND Id NOT IN (SELECT Id FROM KHACHHANG)"
-         ' cmdPrep.parameters.Append cmdPrep.createParameter("MaNV",3,1, ,id)
-         cmdTaiKhoan.Parameters(0) = sqlstring 'Gan sqlstring cho VaiTro=? ben tren'
-         Set Result = cmdTaiKhoan.execute  'Hien thi ra toan bo ket qua : Id, TenTK, MatKhau, VaiTro trong bang tai khoan dua no vao trong bien Result'
-         Set Email = Result("TenTK")  'Dat mot bien ten la Email gan no bang ket qua TenTK vua hien thi ra trong bien Result (Tuc la lay ra email co vai tro la nhan vien)'
+        Dim sqlstring
+        sqlstring = "KhachHang" 'Dat ten bien sqlstring co gia tri la Admin'
+        Set cmdTaiKhoan = Server.CreateObject("ADODB.Command")
+        connDB.Open()
+        cmdTaiKhoan.ActiveConnection = connDB
+        cmdTaiKhoan.CommandType = 1
+        cmdTaiKhoan.CommandText = "SELECT * FROM TAIKHOAN WHERE VaiTro = ? AND Id NOT IN (SELECT Id FROM KHACHHANG)"
+        ' cmdPrep.parameters.Append cmdPrep.createParameter("MaNV",3,1, ,id)
+        cmdTaiKhoan.Parameters(0)=sqlString 'Gan sqlstring cho VaiTro=? ben tren'
+        Set Result = cmdTaiKhoan.execute    'Hien thi ra toan bo ket qua : Id, TenTK, MatKhau, VaiTro trong bang tai khoan dua no vao trong bien Result'
 
+        Set Email = Result("TenTK") 'Dat mot bien ten la Email gan no bang ket qua TenTK vua hien thi ra trong bien Result (Tuc la lay ra email co vai tro la nhan vien)'
         %>
         <form method="post">
             <div class="mb-3">
@@ -138,14 +138,12 @@ End Sub
             <div class="mb-3">                
                 <label for="email" class="form-label">Email</label>               
                      <select name="email" id="email" class="form-control">
-                     <%
-                        do while not Result.EOF 
-                      %>
-                        <option value="<%=Email%>"> <%=Email%> </option>
-                    <%
+                      <% do while not Result.EOF %>
+                      <option value="<%=Email%>"><%=Email%></option>
+                      <%
                           Result.MoveNext
-                          loop                                                                                
-                    %>                 
+                          loop
+                      %>               
                     </select> 
             </div>                       
              <div class="mb-3">

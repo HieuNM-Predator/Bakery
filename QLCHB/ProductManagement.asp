@@ -37,7 +37,7 @@
        strSQL = "SELECT COUNT(MaSP) AS count FROM SANPHAM"       
        Set CountResult = connDB.execute(strSQL)
     Else
-       strSQL = "SELECT COUNT(MaSP) AS count FROM SANPHAM WHERE TenSP LIKE '%"&itemSearch&"%'"
+       strSQL = "SELECT COUNT(MaSP) AS count FROM SANPHAM WHERE TenSP LIKE N'%"&itemSearch&"%'"
        Set CountResult = connDB.execute(strSQL)
     End if
 
@@ -105,7 +105,7 @@
                         cmdPrep.ActiveConnection = connDB
                         cmdPrep.CommandType = 1
                         cmdPrep.Prepared = True
-                        cmdPrep.CommandText = "SELECT MaSP, TenSP, DonGia, Loai, MoTa, HinhAnh, Tinhtrang FROM SANPHAM WHERE TenSP LIKE '%"&itemSearch&"%' ORDER BY MaSP OFFSET ? ROWS FETCH NEXT ? ROWS ONLY"
+                        cmdPrep.CommandText = "SELECT MaSP, TenSP, DonGia, Loai, MoTa, HinhAnh, Tinhtrang FROM SANPHAM WHERE TenSP LIKE N'%"&itemSearch&"%' ORDER BY MaSP OFFSET ? ROWS FETCH NEXT ? ROWS ONLY"
                         cmdPrep.parameters.Append cmdPrep.createParameter("offset",3,1, ,offset)
                         cmdPrep.parameters.Append cmdPrep.createParameter("limit",3,1, , limit)
                  

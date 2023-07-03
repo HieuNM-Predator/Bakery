@@ -1,4 +1,6 @@
 <!-- #include file="connect.asp" -->
+<!--#include file="pure/upload.lib.asp"-->
+
 <%
 On Error Resume Next
 ' handle Error
@@ -16,7 +18,7 @@ End Sub
         donGia = Request.form("price")
         loai = Request.form("category")
         moTa = Request.form("description")
-        hinhAnh = Request.form("image")
+        hinhAnh = "/files/img/"& Request.form("image")
         tinhTrang = Request.form("status")
         If (CStr(tinhTrang) = "InStock") Then
             ' true
@@ -59,6 +61,7 @@ End Sub
         
 %>
 <!-- #include file="layouts/header.asp" -->
+
     <div class="container">
         <h2>Thêm sản phẩm</h2>
             
@@ -79,9 +82,14 @@ End Sub
                 <label for="description" class="form-label">Mô tả</label>
                 <input type="text" class="form-control" id="description" name="description" value="<%=moTa%>">
             </div>
-            <div class="mb-3">
-                <label for="image" class="form-label">Hình ảnh</label>
-                <input type="text" class="form-control" id="image" name="image" value="<%=hinhAnh%>">
+            <div  class="mb-3">
+                <form action="./pure/upload.asp" enctype="multipart/form-data" target="iframe_upload">
+                    <p>File/Image:</p>
+                        <input type="file" name="image" multiple id="image" value="<%=hinhAnh%>" />
+                        <input type="submit" value="Upload" />
+                    <br />
+                    <iframe name="iframe_upload" src="pure/upload.asp" width="100%" height="200px"></iframe>
+                </form> 
             </div>
             <div class="mb-3">
                 <label for="status" class="form-label">Tình trạng:</label>
@@ -95,5 +103,6 @@ End Sub
             </button>
             <a href="ProductManagement.asp" class="btn btn-info">Hủy</a>
         </form>
-    </div>
+    </div>     
+
 <!-- #include file="layouts/footer.asp" -->
